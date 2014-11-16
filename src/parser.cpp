@@ -37,7 +37,7 @@ Program* Parser::ParseProgram(bool *ok)
 	Statement* stmt=nullptr;
 	ClassDefinition* classDef=nullptr;
 	FunctionDefinition* func=nullptr;
-	EnumStatement* enumStmt;
+	//EnumStatement* enumStmt;
 	while(tokens->HasMore())
 	{
 		Token tok = tokens->PeekToken();
@@ -516,7 +516,7 @@ these follow identifiers,list_literals and expressions between parentheses
 */
 Expression* Parser::ParseMemberExprSuffix(Expression *expr,bool *ok)
 {
-	Expression *e;
+	//Expression *e;
 	Identifier* iden;
 	Arguments* args;
 
@@ -675,6 +675,8 @@ void* Parser::ParseParamList(FunctionDefinition* func,bool *ok)
 			func->AddParam(param);
 		}
 	}
+
+	return NULL;
 }
 
 //'def' iden '(' (functionparam)* ')' (':' iden)? '{' block '}'

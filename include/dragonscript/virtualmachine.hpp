@@ -30,6 +30,7 @@ THE SOFTWARE.
 #include <map>
 #include <assert.h>
 #include <iostream>
+#include "string.h"
 #include "assembly.hpp"
 #include "error.hpp"
 
@@ -47,8 +48,8 @@ class Object;
 struct ArrayObject;
 struct Function;
 class VirtualMachine;
-struct Value;
-struct Class;
+class Value;
+class Class;
 
 struct ValueType
 {
@@ -64,8 +65,9 @@ struct ValueType
 };
 
 //strings are immutable now!
-struct Value
+class Value
 {
+public:
 	ValueType::Enum type;
 
 	union
@@ -148,7 +150,7 @@ struct ArrayObject:public Object
 	ArrayObject();
 
 	//def size()
-	static Value ArrayObject::GetSize(VirtualMachine* vm,Object* self);
+	static Value GetSize(VirtualMachine* vm,Object* self);
 
 	//def add(val)
 	static Value AddEl(VirtualMachine* vm,Object* self);
@@ -184,8 +186,9 @@ struct ClassAttrib
 	Function* init;
 };
 
-struct Class
+class Class
 {
+public:
 	string name;
 	vector<ClassAttrib> attribs;
 	//vector<string> functions;
@@ -336,7 +339,7 @@ public:
 
 	int NumArgs();
 
-	Value GetArg(int index);
+	Value GetArg(unsigned int index);
 
 	void ClearArgs();
 	

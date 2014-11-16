@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "../include/dragonscript/virtualmachine.hpp"
 
 using namespace dragonscript;
@@ -75,7 +76,7 @@ ArrayObject* Value::AsArray()
 //display
 void Value::Print(bool newLine)
 {
-	char* lineEnd = newLine?"\n":"";
+	const char* lineEnd = newLine?"\n":"";
 
 	switch (type)
 	{
@@ -253,7 +254,7 @@ Object* VirtualMachine::CreateObject(Class* cls)
 	//copy functions and attribs
 
 	//attribs
-	for(int j=0;j<cls->attribs.size();j++)
+	for(size_t j=0;j<cls->attribs.size();j++)
 	{
 		//only add non-static vars to instance
 		if(!cls->attribs[j].isStatic)
@@ -280,7 +281,7 @@ int VirtualMachine::NumArgs()
 	return args.size();
 }
 
-Value VirtualMachine::GetArg(int index)
+Value VirtualMachine::GetArg(unsigned int index)
 {
 	if(index<args.size())
 		return args[index];
@@ -346,8 +347,8 @@ Value VirtualMachine::ExecuteScriptFunction(Object* self,Function* func)
 	//todo: rename func->args to func->params
 	//adding args in reverse
 	//see function call in Compiler.h
-	int paramSize = func->args.size();
-	for(int i=0;i<paramSize;i++)
+	size_t paramSize = func->args.size();
+	for(size_t i=0;i<paramSize;i++)
 	{
 		if(i<args.size())
 			frame->locals[func->args[i]]=args[paramSize-1-i];
@@ -718,11 +719,11 @@ void GC::AddObject(VirtualMachine* vm,Object* obj)
 void GC::Collect(VirtualMachine* vm)
 {
 	//search through stack and mark objects
-	for(int s = 0;s<vm->frames.size();s++)
+	for(size_t s = 0;s<vm->frames.size();s++)
 	{
 		StackFrame* frame = vm->frames[s];
 
-		for(int f = 0;f<frame->stack.size();f++)
+		for(size_t f = 0;f<frame->stack.size();f++)
 		{
 			if(frame->stack[f].type == ValueType::Object)
 				MarkObject(frame->stack[f].AsObject());
@@ -911,7 +912,7 @@ Value ArrayObject::GetEl(VirtualMachine* vm,Object* self)
 	int ind = (int)index.val.num;
 	ArrayObject* arr = (ArrayObject*)self;
 
-	if(ind<0 || ind>=arr->elements.size())
+	if(ind<0 || ind>=(int)arr->elements.size())
 	{
 		vm->RaiseError("index out of bounds");
 		return Value::CreateNull();

@@ -163,15 +163,15 @@ class TokenStream
 {
 public:
 	vector<Token> tokens;
-	int index;
+	unsigned int index;
 
 	TokenStream();
 	void AddToken(Token t);
 	void AddToken(Token::Type type,string tok,int line);
 
 	Token NextToken();
-	Token::Type PeekTokenType(int look_ahead=0);
-	Token PeekToken(int look_ahead=0);
+	Token::Type PeekTokenType(unsigned int look_ahead=0);
+	Token PeekToken(unsigned int look_ahead=0);
 	void Advance();
 	
 	bool HasMore();
@@ -181,7 +181,7 @@ class CharStream
 {
 public:
 	string chars;
-	int index;
+	unsigned int index;
 
 	CharStream(string code);
 
@@ -195,7 +195,7 @@ public:
 	/*
 	returns EOF if out of bounds
 	*/
-	int PeekChar(int look_ahead=0);
+	int PeekChar(unsigned int look_ahead=0);
 
 	bool HasMore();
 };

@@ -10,6 +10,7 @@ TokenStream::TokenStream()
 {
 	index=0;
 }
+
 void TokenStream::AddToken(Token t)
 {
 	tokens.push_back(t);
@@ -27,7 +28,7 @@ void TokenStream::AddToken(Token::Type type,string tok,int line)
 
 Token TokenStream::NextToken()
 {
-	int size = tokens.size();
+	size_t size = tokens.size();
 	if(index<size)
 		return tokens[index++];
 
@@ -35,7 +36,7 @@ Token TokenStream::NextToken()
 	return Token::EOSToken();
 }
 
-Token::Type TokenStream::PeekTokenType(int look_ahead)
+Token::Type TokenStream::PeekTokenType(unsigned int look_ahead)
 {
 	if(tokens.size()<=index+look_ahead)
 		return Token::EOS;
@@ -43,7 +44,7 @@ Token::Type TokenStream::PeekTokenType(int look_ahead)
 	return tokens[index+look_ahead].type;
 }
 
-Token TokenStream::PeekToken(int look_ahead)
+Token TokenStream::PeekToken(unsigned int look_ahead)
 {
 	if(tokens.size()<=index+look_ahead)
 	{
@@ -98,7 +99,7 @@ void CharStream::Advance()
 /*
 returns EOF if out of bounds
 */
-int CharStream::PeekChar(int look_ahead)
+int CharStream::PeekChar(unsigned int look_ahead)
 {
 	int size = (int)chars.size();
 	int look =(index+look_ahead);
@@ -364,7 +365,7 @@ void Lexer::ReadIdentifier()
 
 bool Lexer::IsNumber()
 {
-	return isdigit(stream->PeekChar());
+	return isdigit(stream->PeekChar())!=0;
 }
 
 void Lexer::ReadNumber()

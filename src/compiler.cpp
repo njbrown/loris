@@ -17,7 +17,7 @@ bool Compiler::Compile()
 {
 	assembly = new Assembly;
 
-	for(int i=0;i<sources.size();i++)
+	for(size_t i=0;i<sources.size();i++)
 	{
 		SourceCode src = sources[i];
 		assembly->sourceNames.push_back(src.filename);
@@ -33,7 +33,7 @@ bool Compiler::Compile()
 		/* CLASS EXTRACTION */
 		//loop through each class
 		Program* program = parser.GetProgram();
-		for(int c=0;c<program->classes.size();c++)
+		for(size_t c=0;c<program->classes.size();c++)
 		{
 			ClassDefinition* classDef = program->classes[c];
 			Class* cls = new Class;
@@ -44,7 +44,7 @@ bool Compiler::Compile()
 			cls->parentName = classDef->superClass;
 
 			//extract attributes
-			for(int a=0;a<classDef->attribs.size();a++)
+			for(size_t a=0;a<classDef->attribs.size();a++)
 			{
 				ClassAttribDefinition* attr = classDef->attribs[a];
 				ClassAttrib classAttr = {attr->name,attr->isStatic};
@@ -62,7 +62,7 @@ bool Compiler::Compile()
 			}
 
 			//extract functions
-			for(int j=0;j<classDef->functions.size();j++)
+			for(size_t j=0;j<classDef->functions.size();j++)
 			{
 				FunctionDefinition* funcDefNode = classDef->functions[j];
 
@@ -78,7 +78,7 @@ bool Compiler::Compile()
 			assembly->AddClass(cls);
 		}
 
-		for(int f=0;f<program->functions.size();f++)
+		for(size_t f=0;f<program->functions.size();f++)
 		{
 			FunctionDefinition* funcDefNode = program->functions[f];
 
@@ -138,12 +138,12 @@ Function* Compiler::CompileFunction(FunctionDefinition* funcDef)
 		func->args.push_back((*iter)->name);
 	*/
 
-	for(int k=0;k<funcDef->params.size();k++)
+	for(size_t k=0;k<funcDef->params.size();k++)
 		func->args.push_back(funcDef->params[k]->name);
 
 	DSInstr instr;
 
-	for(int i=0;i<funcDef->statements.size();i++)
+	for(size_t i=0;i<funcDef->statements.size();i++)
 	{
 		Statement* stmt = funcDef->statements[i];
 
@@ -186,9 +186,9 @@ void Compiler::PushLineOp(Function* func,int line)
 
 void Compiler::CompileBlock(Function* func,Block* block)
 {
-	DSInstr instr;
+	//DSInstr instr;
 
-	for(int i=0;i<block->statements.size();i++)
+	for(size_t i=0;i<block->statements.size();i++)
 	{
 		Statement* stmt = block->statements[i];
 		CompileStatement(func,stmt);
@@ -470,7 +470,7 @@ void Compiler::CompileExpression(Function* func,Expression* expr)
 		callExpr = (CallExpr*)expr;
 			
 		//compile all arguments
-		for(int i=0;i<callExpr->args->args.size();i++)
+		for(size_t i=0;i<callExpr->args->args.size();i++)
 		{
 			CompileExpression(func,callExpr->args->args[i]);
 		}
@@ -489,7 +489,7 @@ void Compiler::CompileExpression(Function* func,Expression* expr)
 		it means that the args will be added in reverse however
 		this needs to be fixed in the appropriate section of code
 		*/
-		for(int i=0;i<callExpr->args->args.size();i++)
+		for(size_t i=0;i<callExpr->args->args.size();i++)
 		{
 			instr.op = OpCode::AddArg;
 			func->instr.push_back(instr);
@@ -534,7 +534,7 @@ void Compiler::CompileExpression(Function* func,Expression* expr)
 	case ASTNode::New:
 		newExpr = (NewExpr*)expr;
 			
-		for(int i=0;i<newExpr->args->args.size();i++)
+		for(size_t i=0;i<newExpr->args->args.size();i++)
 		{
 			CompileExpression(func,newExpr->args->args[i]);
 		}
@@ -553,7 +553,7 @@ void Compiler::CompileExpression(Function* func,Expression* expr)
 		it means that the args will be added in reverse however
 		this needs to be fixed in the appropriate section of code
 		*/
-		for(int i=0;i<newExpr->args->args.size();i++)
+		for(size_t i=0;i<newExpr->args->args.size();i++)
 		{
 			instr.op = OpCode::AddArg;
 			func->instr.push_back(instr);

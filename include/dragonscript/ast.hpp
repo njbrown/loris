@@ -286,7 +286,7 @@ public:
 
 	NumberLiteral(string val)
 	{
-		value = atof(val.c_str());
+		value = (float)atof(val.c_str());
 		type = ASTNode::NumberLiteral;
 	}
 };
