@@ -1,6 +1,6 @@
 #include "../include/dragonscript/virtualmachine.hpp"
 
-
+using namespace dragonscript;
 
 Value::Value()
 {

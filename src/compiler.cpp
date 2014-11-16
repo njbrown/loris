@@ -1,5 +1,7 @@
 #include "../include/dragonscript/compiler.hpp"
 
+using namespace dragonscript;
+
 Assembly* Compiler::GetAssembly()
 {
 	return assembly;

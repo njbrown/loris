@@ -1,10 +1,11 @@
 #include "../include/dragonscript/parser.hpp"
 
+using namespace dragonscript;
+
 Program* Parser::GetProgram()
 {
 	return program;
 }
-
 
 Parser::Parser()
 {

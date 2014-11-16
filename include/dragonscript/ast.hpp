@@ -6,6 +6,9 @@
 using namespace std;
 #include "lexer.hpp"
 
+namespace dragonscript
+{
+
 class ASTNode
 {
 public:
@@ -470,3 +473,5 @@ class EmptyStatement:public Statement
 {
 
 };
+
+}

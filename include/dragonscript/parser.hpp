@@ -3,6 +3,9 @@
 #include "lexer.hpp"
 #include "ast.hpp"
 
+namespace dragonscript
+{
+
 //stolen from v8's source :p
 #define CHECK_OK  ok);\
   if (!*ok) return NULL;((void)0
@@ -158,3 +161,5 @@ private:
 	template<class T>
 	T* AddNode(T* node);
 };
+
+}

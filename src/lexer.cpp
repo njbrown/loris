@@ -1,5 +1,6 @@
 #include "../include/dragonscript/lexer.hpp"
 
+using namespace dragonscript;
 
 /*********************
 	TokenStream

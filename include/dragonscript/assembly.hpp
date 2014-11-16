@@ -6,6 +6,9 @@
 
 using namespace std;
 
+namespace dragonscript
+{
+
 class Class;
 struct Function;
 class Value;
@@ -33,3 +36,5 @@ public:
 	Class* GetClass(string name);
 	Function* GetFunction(string name);
 };
+
+}

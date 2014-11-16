@@ -33,6 +33,8 @@ THE SOFTWARE.
 #include "assembly.hpp"
 #include "error.hpp"
 
+namespace dragonscript
+{
 #define VM_ASSERT(check,msg) if(!(check)){this->RaiseError(frame,msg);return;}
 #define VM_ERROR(msg){this->RaiseError(frame,msg);return;}
 
@@ -364,4 +366,4 @@ public:
 	
 };
 
-
+}

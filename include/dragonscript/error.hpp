@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
 
+namespace dragonscript
+{
+
 class Error
 {
 public:
@@ -32,3 +35,5 @@ public:
 		return e;
 	}
 };
+
+}

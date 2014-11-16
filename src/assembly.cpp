@@ -2,6 +2,7 @@
 #include "../include/dragonscript/compiler.hpp"
 #include "../include/dragonscript/virtualmachine.hpp"
 
+using namespace dragonscript;
 
 void Assembly::AddClass(Class* cls)
 {

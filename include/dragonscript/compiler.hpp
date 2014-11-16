@@ -9,6 +9,8 @@
 
 using namespace std;
 
+namespace dragonscript
+{
 
 struct SourceCode
 {
@@ -54,3 +56,5 @@ public:
 
 	Error GetError();
 };
+
+}

@@ -28,6 +28,9 @@ THE SOFTWARE.
 
 using namespace std;
 
+namespace dragonscript
+{
+
 struct Token
 {
 	enum Type
@@ -227,3 +230,5 @@ private:
 	void AddToken(Token::Type type,bool advance=true);
 	
 };
+
+}
