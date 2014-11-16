@@ -21,7 +21,7 @@ class Compiler
 {
 	Parser parser;
 	vector<SourceCode> sources;
-	Error* error;
+	Error error;
 	Assembly* assembly;
 
 	//helpers
@@ -52,5 +52,5 @@ public:
 
 	void CompileIfStatement(Function* func,IfStatement* stmt);
 
-	Error* GetError();
+	Error GetError();
 };

@@ -305,7 +305,7 @@ class VirtualMachine
 	Value ret;
 
 	int lineNo;//line for debugging
-	Error* error;
+	Error error;
 	vector<Value> args;
 
 	//contains classes and function definitions
@@ -320,7 +320,7 @@ public:
 
 	bool HasError();
 
-	Error* GetError();
+	Error GetError();
 
 	string GetErrorString();
 

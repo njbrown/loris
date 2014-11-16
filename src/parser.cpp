@@ -11,7 +11,6 @@ Parser::Parser()
 	lex=NULL;
 	tokens=NULL;
 	program=NULL;
-	error=NULL;
 }
 bool Parser::Parse(string code)
 {
@@ -900,15 +899,13 @@ ExpressionStatement* Parser::ParseExprStatement(bool *ok)
 
 void Parser::ReportUnexpectTokenError(Token token)
 {
-	if(error) delete error;
-
-	error = new Error();
-	error->line = token.line;
-	error->message = "Unexpected ";
-	error->message+=Token::GetTokenName(token.type);
+	error = Error();
+	error.line = token.line;
+	error.message = "Unexpected ";
+	error.message+=Token::GetTokenName(token.type);
 }
 
-Error* Parser::GetError()
+Error Parser::GetError()
 {
 	return error;
 }
@@ -925,14 +922,13 @@ void Parser::Expect(Token::Type type,bool *ok)
 	{
 		*ok=false;
 
-		if(error) delete error;
 
-		error = new Error();
-		error->line = peek.line;
-		error->message = "Unexpected token ";
-		error->message+=Token::GetTokenName(peek.type);
-		error->message+=". Expected ";
-		error->message+=Token::GetTokenName(type);
+		error = Error();
+		error.line = peek.line;
+		error.message = "Unexpected token ";
+		error.message+=Token::GetTokenName(peek.type);
+		error.message+=". Expected ";
+		error.message+=Token::GetTokenName(type);
 	}
 }
 
@@ -952,15 +948,13 @@ void Parser::Consume(Token::Type type,bool *ok)
 	else
 	{
 		*ok=false;
-			
-		if(error) delete error;
-
-		error = new Error();
-		error->line = tok.line;
-		error->message = "Unexpected ";
-		error->message+=Token::GetTokenName(tok.type);
-		error->message+=". Expected ";
-		error->message+=Token::GetTokenName(type);
+		
+		error = Error();
+		error.line = tok.line;
+		error.message = "Unexpected ";
+		error.message+=Token::GetTokenName(tok.type);
+		error.message+=". Expected ";
+		error.message+=Token::GetTokenName(type);
 	}
 
 }

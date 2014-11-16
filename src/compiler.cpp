@@ -23,7 +23,7 @@ bool Compiler::Compile()
 		if(!parser.Parse(src.source))
 		{
 			error = parser.GetError();
-			error->filename = src.filename;
+			error.filename = src.filename;
 			return false;
 		}
 		src.program = parser.GetProgram();
@@ -102,16 +102,16 @@ bool Compiler::Compile()
 
 		if(iter->second->parentName==iter->second->name)
 		{
-			error = new Error();
-			error->message = string("class ")+iter->second->parentName+" cannot inherit itself";
+			error = Error();
+			error.message = string("class ")+iter->second->parentName+" cannot inherit itself";
 			return false;
 		}
 
 		Class* parent = assembly->GetClass(iter->second->parentName);
 		if(!parent)
 		{
-			error = new Error();
-			error->message = string("unable to find class")+iter->second->parentName;
+			error = Error();
+			error.message = string("unable to find class")+iter->second->parentName;
 			return false;
 		}
 		else
@@ -658,7 +658,7 @@ void Compiler::CompileIfStatement(Function* func,IfStatement* stmt)
 	func->instr.push_back(instr);
 }
 
-Error* Compiler::GetError()
+Error Compiler::GetError()
 {
 	return error;
 }

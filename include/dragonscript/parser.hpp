@@ -33,7 +33,7 @@ class Parser
 	TokenStream* tokens;
 	Program* program;
 	
-	Error *error;
+	Error error;
 public:
 	Expression* expr;//just for testing expression parsing
 
@@ -140,7 +140,7 @@ public:
 
 	void ReportUnexpectTokenError(Token token);
 
-	Error* GetError();
+	Error GetError();
 
 private:
 	/*

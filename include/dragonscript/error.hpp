@@ -6,6 +6,7 @@ class Error
 public:
 	enum Type
 	{
+		NONE,
 		UNKOWN_CHAR,
 		UNEXPECTED_TOKEN,
 		INVALID_OPERATION
@@ -16,11 +17,17 @@ public:
 	int line;
 	std::string filename;
 
-	static Error* InvalidOperation(std::string message)
+	Error()
 	{
-		Error* e = new Error();
-		e->message = message;
-		e->code = INVALID_OPERATION;
+		code = NONE;
+		line = -1;
+	}
+
+	static Error InvalidOperation(std::string message)
+	{
+		Error e = Error();
+		e.message = message;
+		e.code = INVALID_OPERATION;
 
 		return e;
 	}

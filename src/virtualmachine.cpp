@@ -201,33 +201,27 @@ bool Object::HasMethod(string name)
 
 VirtualMachine::VirtualMachine()
 {
-	error=0;
 	lineNo = 0;
 }
 
 bool VirtualMachine::HasError()
 {
-	return error!=0;
+	return error.code!=Error::NONE;
 }
 
-Error* VirtualMachine::GetError()
+Error VirtualMachine::GetError()
 {
 	return error;
 }
 
 string VirtualMachine::GetErrorString()
 {
-	if(error)
-		return error->message;
-	return "";
+	return error.message;
 }
 
 int VirtualMachine::GetErrorLine()
 {
-	if(error)
-		return error->line;
-
-	return -1;
+	return error.line;
 }
 
 void VirtualMachine::SetAssembly(Assembly* assem)
@@ -374,7 +368,7 @@ Value VirtualMachine::ExecuteScriptFunction(Object* self,Function* func)
 	//start execution
 	int cpSize = func->instr.size();
 	int cp = 0; //code/instruction pointer
-	while(cp<cpSize && !error)
+	while(cp<cpSize && error.code==Error::NONE)
 	{
 		DSInstr instr = func->instr[cp];
 		switch(instr.op)
@@ -682,6 +676,8 @@ void VirtualMachine::CallMethod(StackFrame* frame,string methodName)
 
 void VirtualMachine::CallFunction(StackFrame* frame,string funcName)
 {
+	//VM_ASSERT(assembly!=NULL,"assembly not set");
+
 	Function* func = assembly->GetFunction(funcName);
 	//assert(func!=NULL);
 	VM_ASSERT(func!=NULL,"function "+funcName+" not found");
@@ -697,12 +693,12 @@ void VirtualMachine::RaiseError(string msg)
 
 void VirtualMachine::RaiseError(StackFrame* frame,string msg)
 {
-	error = new Error();
-	error->message = msg;
-	error->line = lineNo;
+	error = Error();
+	error.message = msg;
+	error.line = lineNo;
 
 	if(frame->function->sourceIndex>=0)
-		error->filename = assembly->sourceNames[frame->function->sourceIndex];
+		error.filename = assembly->sourceNames[frame->function->sourceIndex];
 		
 }
 
