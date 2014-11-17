@@ -1,4 +1,4 @@
-DragonRcript
+DragonScript
 ============
 
 Example
