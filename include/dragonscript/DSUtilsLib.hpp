@@ -28,61 +28,52 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
-#include "../include/dragonscript/assembly.hpp"
-#include "../include/dragonscript/compiler.hpp"
-#include "../include/dragonscript/virtualmachine.hpp"
+#pragma once
 
-using namespace dragonscript;
+#include "assembly.hpp"
+#include "virtualmachine.hpp"
+#include <string>
 
-void Assembly::AddClass(Class* cls)
+namespace DSUtilsLib
 {
-	//classes.push_back(cls);
-	classes[cls->name] = cls;
-}
-	
-void Assembly::AddFunction(Function* func)
+
+Value NativeStr(VirtualMachine* vm,Object* self)
 {
-	//functions.push_back(func);
-	functions[func->name] = func;
-}
+	Value val = vm->GetArg(0);
 
-Class* Assembly::GetClass(string name)
-{
-	/*
-	for(int i=0;i<classes.size();i++)
-		if(classes[i]->name == name)
-			return classes[i];
-	*/
+	switch(val.type)
+	{
+	case ValueType::Bool:
+		if(val.val.b)
+			return Value::CreateBool(true);
+		return Value::CreateBool(false);
+		break;
+	case ValueType::Number:
+		return Value::CreateString(std::to_string(val.val.num).c_str());
+		break;
+	case ValueType::String:
+		return val;
+		break;
+	case ValueType::Object:
+		return Value::CreateString((std::string("<")+val.val.obj->typeName+">").c_str());
+		break;
+	case ValueType::Null:
+		return Value::CreateString("null");
+		break;
+	}
 
-	auto iter = classes.find(name);
-	if(iter!=classes.end())
-		return iter->second;
-
-	return NULL;
-}
-
-Function* Assembly::GetFunction(string name)
-{
-	/*
-	for(int i=0;i<functions.size();i++)
-		if(functions[i]->name == name)
-			return functions[i];
-	*/
-
-	auto iter = functions.find(name);
-	if(iter!=functions.end())
-		return iter->second;
-
-	return NULL;
+	return Value::CreateNull();//shouldnt be here, throw error instead
 }
 
-void Assembly::AddNativeFunction(string name,NativeFunction func)
+Value NativeArray(VirtualMachine* vm,Object* self)
 {
-	Function* f = new Function();
-	f->name = name;
-	f->isNative = true;
-	f->nativeFunction = func;
+	//ignore args at the moment
+	return Value::CreateArray();
+}
 
-	//functions.push_back(f);
-	functions[f->name] = f;
+void Install(Assembly* lib)
+{
+	lib->AddNativeFunction("str",NativeStr);
+	lib->AddNativeFunction("array",NativeArray);
+}
 }
