@@ -20,6 +20,7 @@ e.g.
 	}
 
 The number of arguments passed to a function doesnt have to be the same as the number of parameters in its definition.
+
 	def ArgsTest(a,b)
 	{
 	    print(a);
@@ -27,13 +28,16 @@ The number of arguments passed to a function doesnt have to be the same as the n
 	}
 
 The following should print two nulls:
-ArgsTest();
+
+	ArgsTest();
 
 The following should print 1 and 2:
-ArgsTest(1,2);
+
+	ArgsTest(1,2);
 
 the following should also print 1 and 2:
-ArgsTest(1,2,3,4,5);
+
+	ArgsTest(1,2,3,4,5);
 
 The extra arguments are unused
 
@@ -59,15 +63,16 @@ Classes
 =======
 
 class attribs and methods are all public. The static keyword is valid but will have no effect (I'll implement static vars and functions later)
+
 	class MyClass
 	{
 		var myAttrib;
-
+	
 		MyClass()
 		{
-
+	
 		}
-
+	
 		def SayHello()
 		{
 			print("hello");
