@@ -159,7 +159,7 @@ Variables
 DragonScript's types are: number, string, bool and Object.
 number, string and bool are passed by reference. Objects are created from classes and are passed by value.
 
-Math operations can only be done on numbers. This means you currently cannot concatenate strings. In fact, strings are pretty useless since they cannot be manipulated any way.
+Math operations can only be done on numbers. You can, however, concatenate strings( AND ONLY STRINGS) using the + operator.
 
 Variable Comparisons
 ====================
@@ -168,18 +168,19 @@ only bools and numbers can be compared
 bools can only be compared using the == and != operators
 numbers can be compared using the < > <= >= != and == operators
 
+Arithmetic Operations
+=====================
+the only assignment operation is the = operator
+addition, subtraction, division and multiplication
+
 Built-ins
 =========
-The only built-in function is print. It prints all arguments passed to it. It's actually a native function added before the scripts are executed. So you can have a variable named print and your script will still execute.
+Dragonscript currently has no built-in functions
 
 Keywords
 ========
-class def var for else extends if and or
+class def var for else extends if and or static
 
-Executing Scripts
-=================
-scripts are executed by passing a filename to ds.exe in the command line:
-ds.exe main.ds
 
 there's no mechanism to include other stripts. DragonScript was made with the intention of having all scripts being compiled once.
 
