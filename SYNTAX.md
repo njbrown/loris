@@ -91,6 +91,7 @@ Class Methods
 ===============
 
 class methods are declared like any other functions. You can access the calling instance using the self keyword.
+
 	class Greet
 	{
 		var greeting;
@@ -172,6 +173,7 @@ Arithmetic Operations
 =====================
 the only assignment operation is the = operator
 addition, subtraction, division and multiplication
+to finish
 
 Built-ins
 =========
