@@ -1,8 +1,10 @@
 DragonScript
 ============
+DragonScript is an experimental language I work on in my spare time. It is not optimized for speed at the moment and has known memory leaks. The syntax is coincidentally a subset of ChaiScript's. The code is also a mess and lacks documentation. That will all change over the course of its development. If you do use this library and you find any bugs please let me know. It would be really helpful.
 
-Example
-======
+
+Syntax Example
+=============
 
 hello.ds
 
@@ -58,3 +60,11 @@ Usage
 
 		system("pause");
 	}
+
+Note
+====
+The API is subject to change. As I add more features and find ways to simplify common tasks I'll modify the API to accomodate these changes.
+
+Why the weird name?
+===================
+DragonScript was designed originally to be used in a game engine I was working on named Dragon (yes, i like dragons). I wont change the language's name as long as it's still relevant to the game engine. So :p
