@@ -38,7 +38,7 @@ namespace dragonscript
 
 //stolen from v8's source :p
 #define CHECK_OK  ok);\
-  if (!*ok) return NULL;((void)0
+  if (!*ok) return nullptr;((void)0
 
 class Statement;
 

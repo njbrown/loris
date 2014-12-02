@@ -88,6 +88,8 @@ bool Value::AsBool()
 	return val.b;
 }
 
+//todo: have special string class. str gets deleted when Value goes out of scope. 
+//causes trouble when doing vm->GetArg(0)->AsString();
 const char* Value::AsString()
 {
 	return val.str;
@@ -192,6 +194,14 @@ Object::Object()
 {
 	marked = false;
 	isArray = false;
+
+	//custom data
+	manageData = false;
+	data = NULL;
+
+	managed = true;
+
+	destructor = NULL;
 }
 
 bool Object::HasAttrib(string name)
@@ -262,17 +272,20 @@ void VirtualMachine::SetAssembly(Assembly* assem)
 	//load all the classes as objects
 	for(auto iter = assem->classes.begin();iter!=assem->classes.end();iter++)
 	{
+		//todo: how are these being cleaned up?
+		//nd: not added to gc so cleanup must be manual
 		Value classObj = Value::CreateClass(this,iter->second);
 		globals[iter->first] = classObj;
 	}
 }
 
-Object* VirtualMachine::CreateObject(Class* cls)
+//remember, the constructor is not invoked
+Object* VirtualMachine::CreateObject(Class* cls,bool gc)
 {
 	Object* obj=0;
 	if(cls->parent)
 	{
-		obj = CreateObject(cls->parent);
+		obj = CreateObject(cls->parent,false);
 		obj->typeName = cls->name;
 	}
 	else
@@ -298,7 +311,26 @@ Object* VirtualMachine::CreateObject(Class* cls)
 		obj->SetMethod(iter->first,iter->second);
 	}
 
+	//destructor
+	//todo: how is the parent destructor being called?
+	obj->destructor =cls->destructor;
+
+	if(gc)
+		GC::AddObject(this,obj);
+
 	return obj;
+}
+
+//invokes object's destructor if there is one
+void VirtualMachine::DestroyObject(Object* obj)
+{
+	if(obj->destructor!=NULL)
+	{
+		if(obj->destructor->isNative)
+			ExecuteNativeFunction(obj,obj->destructor);
+		else
+			ExecuteScriptFunction(obj,obj->destructor);//not supported as yet so this should ever be reached
+	}
 }
 
 void VirtualMachine::AddArg(Value val)
@@ -490,7 +522,17 @@ Value VirtualMachine::ExecuteScriptFunction(Object* self,Function* func)
 				break;
 			}
 			*/
-			frame->stack.push_back(val.val.obj->GetAttrib(func->strings[instr.val]));
+
+			//check if prop exists
+			if(val.type==ValueType::Null)
+			{
+				this->RaiseError(frame,"cannot get property from null");
+				frame->stack.push_back(Value::CreateNull());//a value is expected to be pushed to the top of the stack regardless
+			}
+			else
+			{
+				frame->stack.push_back(val.val.obj->GetAttrib(func->strings[instr.val]));
+			}
 			break;
 		case OpCode::StoreProp:
 			//object is at the top of the stack
@@ -671,7 +713,7 @@ void VirtualMachine::CreateInstance(StackFrame* frame,string className)
 	//assert(cls!=NULL);
 	VM_ASSERT(cls!=NULL,"class "+className+" not found");
 
-	Object* obj = CreateObject(cls);
+	Object* obj = CreateObject(cls,false);
 	//assert(obj!=NULL);
 	VM_ASSERT(obj!=NULL,"error creating instance of "+className+". report this immediately!");
 
@@ -727,10 +769,16 @@ void VirtualMachine::RaiseError(StackFrame* frame,string msg)
 	error = Error();
 	error.message = msg;
 	error.line = lineNo;
+	error.code = Error::INVALID_OPERATION;
 
 	if(frame->function->sourceIndex>=0)
 		error.filename = assembly->sourceNames[frame->function->sourceIndex];
 		
+}
+
+void VirtualMachine::ClearError()
+{
+	error.code = Error::NONE;
 }
 
 /* Garbage Collector */
@@ -760,16 +808,26 @@ void GC::Collect(VirtualMachine* vm)
 			if(frame->stack[f].type == ValueType::Array)
 				MarkArray(frame->stack[f].AsArray());
 		}
+
+		//almost forgot about locals
+		//self get cleaned up when an object's method is called from c++
+		//this fixes that
+		for(auto i = frame->locals.begin();i!=frame->locals.end();i++)
+		{
+			if(i->second.type == ValueType::Object)
+				MarkObject(i->second.AsObject());
+			if(i->second.type == ValueType::Array)
+				MarkArray(i->second.AsArray());
+		}
 	}
 
 	//sweep
-	Sweep();
+	Sweep(vm);
 }
 
 void GC::MarkObject(Object* obj)
 {
 	obj->marked = true;
-
 
 	for(auto var:obj->vars)
 	{
@@ -816,12 +874,13 @@ void GC::MarkArray(ArrayObject* arr)
 
 }
 
-void GC::Sweep()
+void GC::Sweep(VirtualMachine* vm)
 {
 	//remove all unmarked objects
 	for(auto iter = objects.begin();iter!=objects.end();)
 	{
-		if((*iter)->marked)
+		//unmanaged objects shouldnt be GC'd
+		if((*iter)->marked || !((*iter)->managed))
 		{
 			//unmark for next sweep
 			(*iter)->marked = false;
@@ -830,7 +889,11 @@ void GC::Sweep()
 		else
 		{
 			//erase returns next valid pointer
+			Object* obj = *iter;
+			vm->DestroyObject(obj);
 			iter = objects.erase(iter);
+
+			delete obj;
 		}
 	}
 }

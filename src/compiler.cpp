@@ -500,11 +500,12 @@ void Compiler::CompileExpression(Function* func,Expression* expr)
 		callExpr = (CallExpr*)expr;
 			
 		//compile all arguments
+		/*
 		for(size_t i=0;i<callExpr->args->args.size();i++)
 		{
 			CompileExpression(func,callExpr->args->args[i]);
 		}
-			
+		*/
 		/*
 		IMPORTANT FIX!
 		the args list gets flushed after each function call or object
@@ -519,17 +520,31 @@ void Compiler::CompileExpression(Function* func,Expression* expr)
 		it means that the args will be added in reverse however
 		this needs to be fixed in the appropriate section of code
 		*/
+		/*
 		for(size_t i=0;i<callExpr->args->args.size();i++)
 		{
 			instr.op = OpCode::AddArg;
 			func->instr.push_back(instr);
 		}
-
+		*/
 
 		//if callExpr->obj is an Identifier, it is a static function call
 		//else the function is being called from an object
 		if(callExpr->obj->type == ASTNode::Iden)
 		{
+			/* PUSH ARGS START */
+			for(size_t i=0;i<callExpr->args->args.size();i++)
+			{
+				CompileExpression(func,callExpr->args->args[i]);
+			}
+
+			for(size_t i=0;i<callExpr->args->args.size();i++)
+			{
+				instr.op = OpCode::AddArg;
+				func->instr.push_back(instr);
+			}
+			/* PUSH ARGS END */
+
 			instr.op = OpCode::CallFunction;
 			func->strings.push_back(((Identifier*)callExpr->obj)->name);
 			instr.val = func->strings.size()-1;
@@ -543,11 +558,29 @@ void Compiler::CompileExpression(Function* func,Expression* expr)
 			isnt compiled
 			Its obj property is compiled
 			the CallMethod opcode requires the val to be the index of the function
-			name inteh string table
+			name in the string table
 			*/
 			propExpr = (PropertyAccess*)callExpr->obj;
 
 			CompileExpression(func,propExpr->obj);
+
+			/* PUSH ARGS START */
+			//args are pushed after prop is evaluated in the case of chaining
+			//self.objects.get(0).update(dt);
+			//after 'get' is called, the args will be cleared
+			//it is important that the args be pushed after any previous function calls
+			//are executed
+			for(size_t i=0;i<callExpr->args->args.size();i++)
+			{
+				CompileExpression(func,callExpr->args->args[i]);
+			}
+
+			for(size_t i=0;i<callExpr->args->args.size();i++)
+			{
+				instr.op = OpCode::AddArg;
+				func->instr.push_back(instr);
+			}
+			/* PUSH ARGS END */
 
 			instr.op = OpCode::CallMethod;
 			func->strings.push_back(propExpr->name);

@@ -143,6 +143,19 @@ public:
 	//name of the type
 	string typeName;
 
+	//if set to true, data will be deleted upon 
+	bool manageData;
+	//for storing native data
+	void* data;
+
+	//should be true by default
+	//true means it's managed by the engine and can be GC'd
+	//false means user has to do the cleaning up
+	bool managed;
+
+	//destrutcor
+	Function* destructor;
+
 	Object();
 	bool HasAttrib(string name);
 	Value GetAttrib(string name);
@@ -166,6 +179,12 @@ struct ArrayObject:public Object
 
 	//def get(index)
 	static Value GetEl(VirtualMachine* vm,Object* self);
+
+	//def remove(item)
+	static Value RemoveEl(VirtualMachine* vm,Object* self);
+
+	//def remove_at(index)
+	static Value RemoveAt(VirtualMachine* vm,Object* self);
 };
 
 /*
@@ -184,7 +203,7 @@ public:
 	static void MarkObject(Object* obj);
 	static void MarkArray(ArrayObject* obj);
 
-	static void Sweep();
+	static void Sweep(VirtualMachine* vm);
 };
 
 
@@ -203,6 +222,9 @@ public:
 	//vector<string> functions;
 	map<string,Function*> methods;
 
+	//only invoked by gc
+	Function* destructor;
+
 	string parentName;
 	Class* parent;
 
@@ -213,6 +235,8 @@ public:
 		parent = 0;
 		parentName = "";
 		sourceIndex = -1;
+
+		destructor = NULL;
 	}
 
 	Function* GetMethod(string name)
@@ -342,7 +366,8 @@ public:
 
 	void SetAssembly(Assembly* assem);
 
-	Object* CreateObject(Class* cls);
+	Object* CreateObject(Class* cls,bool gc = true);
+	void DestroyObject(Object* obj);
 
 	void AddArg(Value val);
 
@@ -375,6 +400,7 @@ public:
 
 	void RaiseError(string msg);
 	void RaiseError(StackFrame* frame,string msg);
+	void ClearError();
 	
 };
 
