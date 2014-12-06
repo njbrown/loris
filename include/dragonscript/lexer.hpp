@@ -29,10 +29,6 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
-<<<<<<< HEAD
-
-=======
->>>>>>> 9decceac01d8c3ded03b293b5a56cb63924581b5
 
 #pragma once
 
@@ -198,19 +194,9 @@ public:
 	unsigned int index;
 
 	CharStream(string code);
-
-	/*
-	returns EOF if out of bounds
-	*/
 	int NextChar();
-
 	void Advance();
-
-	/*
-	returns EOF if out of bounds
-	*/
 	int PeekChar(unsigned int look_ahead=0);
-
 	bool HasMore();
 };
 
@@ -242,7 +228,6 @@ private:
 	void ReadDoubleQuotedString();
 
 	void AddToken(Token::Type type,bool advance=true);
-	
 };
 
 }

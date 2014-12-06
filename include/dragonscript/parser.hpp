@@ -70,8 +70,9 @@ class Parser
 public:
 	Expression* expr;//just for testing expression parsing
 
-	Program *GetProgram();
 	Parser();
+	Program *GetProgram();
+	
 	bool Parse(string code);
 
 	Program* ParseProgram(bool *ok);
