@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DragonScript", "DragonScript.vcxproj", "{3A2DCD50-684B-4700-AAAD-9CFD58B00BA8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DraonScriptTest", "..\DraonScriptTest\DraonScriptTest.vcxproj", "{C8C928DC-D6FD-456B-A1B1-7DF7A2AFCF41}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DragonScriptGameExample", "..\DragonScriptGameExample\DragonScriptGameExample.vcxproj", "{32B55A61-93D0-4BED-A15E-05CF605410A2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3A2DCD50-684B-4700-AAAD-9CFD58B00BA8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3A2DCD50-684B-4700-AAAD-9CFD58B00BA8}.Debug|Win32.Build.0 = Debug|Win32
+		{3A2DCD50-684B-4700-AAAD-9CFD58B00BA8}.Release|Win32.ActiveCfg = Release|Win32
+		{3A2DCD50-684B-4700-AAAD-9CFD58B00BA8}.Release|Win32.Build.0 = Release|Win32
+		{C8C928DC-D6FD-456B-A1B1-7DF7A2AFCF41}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C8C928DC-D6FD-456B-A1B1-7DF7A2AFCF41}.Debug|Win32.Build.0 = Debug|Win32
+		{C8C928DC-D6FD-456B-A1B1-7DF7A2AFCF41}.Release|Win32.ActiveCfg = Release|Win32
+		{C8C928DC-D6FD-456B-A1B1-7DF7A2AFCF41}.Release|Win32.Build.0 = Release|Win32
+		{32B55A61-93D0-4BED-A15E-05CF605410A2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{32B55A61-93D0-4BED-A15E-05CF605410A2}.Debug|Win32.Build.0 = Debug|Win32
+		{32B55A61-93D0-4BED-A15E-05CF605410A2}.Release|Win32.ActiveCfg = Release|Win32
+		{32B55A61-93D0-4BED-A15E-05CF605410A2}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

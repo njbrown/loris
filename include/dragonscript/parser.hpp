@@ -191,6 +191,8 @@ private:
 
 	template<class T>
 	T* AddNode(T* node);
+
+	void Cleanup();
 };
 
 }

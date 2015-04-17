@@ -54,6 +54,7 @@ class Compiler
 	vector<SourceCode> sources;
 	Error error;
 	Assembly* assembly;
+	bool debug;//debug mode
 
 	//helpers
 
@@ -64,7 +65,7 @@ public:
 
 	void AddSource(string filename,string code);
 
-	bool Compile();
+	bool Compile(bool debug = false);
 
 	//compiles function node into instructions
 	Function* CompileFunction(FunctionDefinition* funcDef);

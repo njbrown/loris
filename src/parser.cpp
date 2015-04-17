@@ -47,6 +47,9 @@ bool Parser::Parse(string code)
 {
 	if(lex)delete lex;
 	lex = new Lexer;
+
+	//cleanup from previous parse
+	Cleanup();
 		
 	if(!lex->Parse(code))
 		return false;
@@ -56,6 +59,8 @@ bool Parser::Parse(string code)
 	//begin parsing
 	bool ok = true;
 	program = ParseProgram(&ok);
+
+	
 
 	return ok;
 }
@@ -998,4 +1003,16 @@ T* Parser::AddNode(T* node)
 	nodes.push_back(static_cast<ASTNode*>(node));
 
 	return node;
+}
+
+void Parser::Cleanup()
+{
+	//cleanup all nodes
+	for(auto i:nodes)
+	{
+		ASTNode* node = i;
+		delete node;
+	}
+
+	nodes.clear();
 }

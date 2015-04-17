@@ -43,8 +43,10 @@ void Compiler::AddSource(string filename,string code)
 	sources.push_back(src);
 }
 
-bool Compiler::Compile()
+bool Compiler::Compile(bool debug)
 {
+	this->debug = debug;
+
 	assembly = new Assembly;
 
 	for(size_t i=0;i<sources.size();i++)
@@ -207,6 +209,10 @@ Function* Compiler::CompileFunction(FunctionDefinition* funcDef)
 
 void Compiler::PushLineOp(Function* func,int line)
 {
+	//this is only done in debug mode
+	if(!debug)
+		return;
+
 	DSInstr instr;
 	instr.op = OpCode::Line;
 	instr.val = line;

@@ -313,7 +313,7 @@ Object* VirtualMachine::CreateObject(Class* cls,bool gc)
 
 	//destructor
 	//todo: how is the parent destructor being called?
-	obj->destructor =cls->destructor;
+	obj->destructor = cls->destructor;
 
 	if(gc)
 		GC::AddObject(this,obj);
