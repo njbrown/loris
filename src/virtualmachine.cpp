@@ -697,6 +697,20 @@ void VirtualMachine::Comparison(StackFrame* frame,OpCode opcode)
 	{
 		res.val.b = strcmp(b.val.str,a.val.str)==0;
 	}
+	//this is a quick hack: should do object-object comparison instead
+	else if(b.type == ValueType::Null || a.type == ValueType::Null)
+	{
+		switch(opcode)
+		{
+			case OpCode::IsEqual:
+				res.val.b = b.type==a.type;break;
+			case OpCode::IsNotEqual:
+				res.val.b = b.type!=a.type;break;
+			default:
+				VM_ERROR("invalid comparison between null and other type");
+				break;
+		}
+	}
 	else
 	{
 		VM_ERROR("invalid comparison");
