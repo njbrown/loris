@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 #include "../include/dragonscript/lexer.hpp"
+#include <iostream>
 
 using namespace dragonscript;
 
@@ -163,7 +164,7 @@ bool Lexer::Parse(string code)
 	if(stream)delete stream;
 
 	tokens = new TokenStream();
-	stream = new CharStream(code);
+	stream = new CharStream(StripComments(code));
 
 	line=1;
 
@@ -484,6 +485,58 @@ void Lexer::ReadDoubleQuotedString()
 		token.token+=chr;
 	}
 	tokens->AddToken(token);
+}
+
+string Lexer::StripComments(string code)
+{
+	char* res = new char[code.size()+1];
+	int resSize = 0;//char limit of max(long)
+
+	bool commentMode = false;
+
+	for(int i=0;i<code.size();i++)
+	{
+		if(commentMode)
+		{
+			
+			if(code[i]=='\n')
+			{
+				//end of comment
+				commentMode = false;
+				res[i] = '\n';
+			}
+			else
+			{
+				//replace with space
+				res[i] = ' ';
+			}
+
+		}
+		else
+		{
+			if(code[i]=='/' && ( i+1<code.size() && code[i+1]=='/')  )
+			{
+				//start of comment
+				commentMode = true;
+				res[i] = ' ';
+			}
+			else
+			{
+				//normal line
+				res[i] = code[i];
+			}
+		}
+
+	}
+
+	res[code.size()]='\0';
+	string result(res);
+	delete res;
+
+	//std::cout<<code.c_str()<<endl;
+	//std::cout<<result.c_str()<<endl;
+
+	return result;
 }
 
 Lexer::~Lexer()

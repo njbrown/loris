@@ -61,6 +61,11 @@ class Compiler
 	//break stack
 	//stack<int> breakStack;
 public:
+	Compiler()
+	{
+		debug = false;
+	}
+
 	Assembly* GetAssembly();
 
 	void AddSource(string filename,string code);

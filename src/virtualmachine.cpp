@@ -243,6 +243,40 @@ bool Object::HasMethod(string name)
 VirtualMachine::VirtualMachine()
 {
 	lineNo = 0;
+	nullVal = Value::CreateNull();
+	selfVal = Value::CreateObject(nullptr);
+
+	//allocate 10 frames
+	for(auto i=0;i<20;i++)
+	{
+		allocatedFrames.push_back(new StackFrame);
+	}
+}
+
+StackFrame* VirtualMachine::GetStackFrame()
+{
+	if(allocatedFrames.size()==0)
+	{
+		//return new
+		return new StackFrame;
+	}
+	else
+	{
+		//get stackframe and clean it up
+		StackFrame* frame = allocatedFrames.back();
+		allocatedFrames.pop_back();
+		return frame;
+	}
+}
+
+void VirtualMachine::ReturnStackFrame(StackFrame* frame)
+{
+	//add stackframe and clean it up
+	frame->function = nullptr;
+	frame->locals.clear();
+	frame->stack.clear();
+
+	allocatedFrames.push_back(frame);
 }
 
 bool VirtualMachine::HasError()
@@ -279,8 +313,14 @@ void VirtualMachine::SetAssembly(Assembly* assem)
 	}
 }
 
+Object* VirtualMachine::CreateNativeObject(Class* cls,bool addToGC)
+{
+	return CreateObject(cls,addToGC,false);
+}
+
 //remember, the constructor is not invoked
-Object* VirtualMachine::CreateObject(Class* cls,bool gc)
+//if gc is true, the objects will be added to the garbage collector
+Object* VirtualMachine::CreateObject(Class* cls,bool addToGC,bool doGC)
 {
 	Object* obj=0;
 	if(cls->parent)
@@ -315,8 +355,8 @@ Object* VirtualMachine::CreateObject(Class* cls,bool gc)
 	//todo: how is the parent destructor being called?
 	obj->destructor = cls->destructor;
 
-	if(gc)
-		GC::AddObject(this,obj);
+	if(addToGC)
+		GC::AddObject(this,obj,doGC);
 
 	return obj;
 }
@@ -324,7 +364,7 @@ Object* VirtualMachine::CreateObject(Class* cls,bool gc)
 //invokes object's destructor if there is one
 void VirtualMachine::DestroyObject(Object* obj)
 {
-	if(obj->destructor!=NULL)
+	if(obj->destructor!=nullptr)
 	{
 		if(obj->destructor->isNative)
 			ExecuteNativeFunction(obj,obj->destructor);
@@ -393,17 +433,22 @@ Value VirtualMachine::ExecuteNativeFunction(Object* self,Function* func)
 	return val;
 }
 
+
 Value VirtualMachine::ExecuteScriptFunction(Object* self,Function* func)
 {
 	Value ret = Value::CreateNull();//value returned from called function
 	//Value retured;//value returned from this function
 
 	//init stackframe before execution
-	StackFrame* frame = new StackFrame;
+	//StackFrame* frame = new StackFrame;
+	StackFrame* frame = GetStackFrame();
 	frame->function = func;
 
-	if(self!=NULL)
+	if(self!=nullptr)
+	{
+		selfVal.val.obj = self;
 		frame->locals["self"]=Value::CreateObject(self);
+	}
 
 	//args
 	//todo: rename func->args to func->params
@@ -415,7 +460,7 @@ Value VirtualMachine::ExecuteScriptFunction(Object* self,Function* func)
 		if(i<args.size())
 			frame->locals[func->args[i]]=args[paramSize-1-i];
 		else
-			frame->locals[func->args[i]]=Value::CreateNull();
+			frame->locals[func->args[i]]=nullVal;
 	}
 
 	args.clear();
@@ -567,10 +612,12 @@ Value VirtualMachine::ExecuteScriptFunction(Object* self,Function* func)
 				
 		case OpCode::Return:
 			ret = frame->stack.back();
-			frame->stack.pop_back();
+			frame->stack.pop_back();//why bother?
 
 			frames.pop_back();
-			delete frame;
+			//delete frame;
+			ReturnStackFrame(frame);
+
 			return ret;
 		default:
 			//dont execute any op we dont know
@@ -582,9 +629,11 @@ Value VirtualMachine::ExecuteScriptFunction(Object* self,Function* func)
 	}
 
 	frames.pop_back();
-	delete frame;
+	//delete frame;
+	ReturnStackFrame(frame);
 
-	return Value::CreateNull();
+	//return Value::CreateNull();
+	return nullVal;
 }
 
 void VirtualMachine::Negate(StackFrame* frame)
@@ -798,18 +847,25 @@ void VirtualMachine::ClearError()
 /* Garbage Collector */
 vector<Object*> GC::objects;
 
-void GC::AddObject(VirtualMachine* vm,Object* obj)
+void GC::AddObject(VirtualMachine* vm,Object* obj,bool doGC)
 {
 	objects.push_back(obj);
+	cout<<"Created Object: "<<objects.size()<<endl;
 
-	if(objects.size()>1000)
+	if(doGC)
 	{
-		Collect(vm);
+		if(objects.size()>1000)//fix this
+		{
+			Collect(vm);
+		}
 	}
+	
 }
 
 void GC::Collect(VirtualMachine* vm)
 {
+	cout<<"Garbage Collecting"<<endl;
+
 	//search through stack and mark objects
 	for(size_t s = 0;s<vm->frames.size();s++)
 	{
@@ -917,7 +973,7 @@ Value Value::CreateClass(VirtualMachine* vm,Class* cls)
 {
 	Value v;
 	v.type = ValueType::Object;
-	Object *obj = new Object;
+	Object* obj = new Object;
 	
 	//add each static attrib as a var
 	for(auto i = cls->attribs.begin();i!=cls->attribs.end();i++)

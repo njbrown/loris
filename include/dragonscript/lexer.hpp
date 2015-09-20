@@ -227,6 +227,8 @@ private:
 	void ReadSingleQuotedString();
 	void ReadDoubleQuotedString();
 
+	string StripComments(string);
+
 	void AddToken(Token::Type type,bool advance=true);
 };
 

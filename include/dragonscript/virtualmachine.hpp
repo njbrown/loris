@@ -137,7 +137,7 @@ protected:
 
 	bool isArray;
 	
-	bool marked;//for gc
+	bool marked;//for gc, mark and sweep
 
 public:
 	//name of the type
@@ -196,7 +196,7 @@ class GC
 	//but it's quick, dirty and gets the job done
 	static vector<Object*> objects;
 public:
-	static void AddObject(VirtualMachine* vm,Object* obj);
+	static void AddObject(VirtualMachine* vm,Object* obj,bool doGC=true);
 
 	static void Collect(VirtualMachine* vm);
 
@@ -211,7 +211,7 @@ struct ClassAttrib
 {
 	string name;
 	bool isStatic;
-	Function* init;
+	Function* init;//for attribs specified with an expression
 };
 
 class Class
@@ -232,11 +232,11 @@ public:
 
 	Class()
 	{
-		parent = 0;
+		parent = nullptr;
 		parentName = "";
 		sourceIndex = -1;
 
-		destructor = NULL;
+		destructor = nullptr;
 	}
 
 	Function* GetMethod(string name)
@@ -335,11 +335,19 @@ struct StackFrame
 	map<string,Value> locals;
 	
 	deque<Value> stack;
+
+public:
+	StackFrame()
+	{
+		function=nullptr;
+	}
 };
 
 class VirtualMachine
 {
 	deque<StackFrame*> frames;
+	vector<StackFrame*> allocatedFrames;
+
 	Value ret;
 
 	int lineNo;//line for debugging
@@ -352,9 +360,15 @@ class VirtualMachine
 	//is this even being used?
 	map<string,Value> globals;
 
+	Value nullVal;
+	Value selfVal;
+
 	friend class GC;
 public:
 	VirtualMachine();
+
+	StackFrame* GetStackFrame();
+	void ReturnStackFrame(StackFrame* frame);
 
 	bool HasError();
 
@@ -366,7 +380,10 @@ public:
 
 	void SetAssembly(Assembly* assem);
 
-	Object* CreateObject(Class* cls,bool gc = true);
+	//wth this, objects being created from c++ dont risk the chance of being GC'ed while being instantiated
+	Object* CreateNativeObject(Class* cls,bool addToGC = true);
+	
+	Object* CreateObject(Class* cls,bool addToGC = true,bool doGC = true);
 	void DestroyObject(Object* obj);
 
 	void AddArg(Value val);
@@ -385,18 +402,18 @@ public:
 
 	Value ExecuteScriptFunction(Object* self,Function* func);
 
-	void Negate(StackFrame* frame);
+	inline void Negate(StackFrame* frame);
 
-	void OpArithmetic(StackFrame* frame,OpCode opcode);
+	inline void OpArithmetic(StackFrame* frame,OpCode opcode);
 
 	//todo: compare other values
-	void Comparison(StackFrame* frame,OpCode opcode);
+	inline void Comparison(StackFrame* frame,OpCode opcode);
 
-	void CreateInstance(StackFrame* frame,string className);
+	inline void CreateInstance(StackFrame* frame,string className);
 
-	void CallMethod(StackFrame* frame,string methodName);
+	inline void CallMethod(StackFrame* frame,string methodName);
 	
-	void CallFunction(StackFrame* frame,string funcName);
+	inline void CallFunction(StackFrame* frame,string funcName);
 
 	void RaiseError(string msg);
 	void RaiseError(StackFrame* frame,string msg);
