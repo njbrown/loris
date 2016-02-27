@@ -1,7 +1,6 @@
 Each scripts main scope can contain either classes or functions. Variables can only be declared within functions.
 
-Functions
-=========
+## Functions
 
 Functions are declared with the def  keyword.
 e.g.
@@ -59,8 +58,7 @@ Function overloading is not supported. If you declare a function twice, the firs
 
 In the example above, "hijacked" will be printed.
 
-Classes
-=======
+## Classes
 
 class attribs and methods are all public. The static keyword is valid but will have no effect (I'll implement static vars and functions later)
 
@@ -81,14 +79,12 @@ class attribs and methods are all public. The static keyword is valid but will h
 
 The class's constructor is just a function declared without the def keyword and its name. The constructor acts like any other function and can even be called outside of the class's definition.
 
-Attributes
-==========
+## Attributes
 
 class attribs can only be declared. Initialization of attribs must be done in it's functions. Attributes are set to null unless a value is assigned it.
 attributes can be assigned outside of the class's declaration
 
-Class Methods
-===============
+## Class Methods
 
 class methods are declared like any other functions. You can access the calling instance using the self keyword.
 
@@ -108,10 +104,10 @@ class methods are declared like any other functions. You can access the calling 
 	}
 
 
-Inheritance
-===========
+## Inheritance
 
 inheritance is done by using the extend keyword.
+
 	class Base
 	{
 		var BaseVal;
@@ -134,8 +130,7 @@ inheritance is done by using the extend keyword.
 
 During instantiation, all of the base class's attribs and methods are copied into the instance before the derived class'. The base class's attribs and methods will be replaced by the derived's if they( the attribs and methods) share the same name.
 
-Statements
-==========
+## Statements
 
 This version only supports if, while and return statements. They function the same way as they would in Javascript.
 
@@ -154,35 +149,33 @@ This version only supports if, while and return statements. They function the sa
 
 	return false;
 
-Variables
-=========
+## Variables
 
 DragonScript's types are: number, string, bool and Object.
 number, string and bool are passed by reference. Objects are created from classes and are passed by value.
 
 Math operations can only be done on numbers. You can, however, concatenate strings( AND ONLY STRINGS) using the + operator.
 
-Variable Comparisons
-====================
+## Variable Comparisons
 
 only bools and numbers can be compared
 bools can only be compared using the == and != operators
 numbers can be compared using the < > <= >= != and == operators
 
-Arithmetic Operations
-=====================
+## Arithmetic Operations
+
 the only assignment operation is the = operator
 addition, subtraction, division and multiplication
 to finish
 
-Built-ins
-=========
+## Built-ins
+
 Dragonscript currently has no built-in functions
 
-Keywords
-========
-class def var for else extends if and or static
+## Keywords
+
+	class def var for else extends if and or static
 
 
-there's no mechanism to include other stripts. DragonScript was made with the intention of having all scripts being compiled once.
+There's no mechanism to include other scripts at runtime. DragonScript was made with the intention of having all scripts being compiled once.
 

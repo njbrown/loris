@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DraonScriptTest", "..\Draon
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DragonScriptGameExample", "..\DragonScriptGameExample\DragonScriptGameExample.vcxproj", "{32B55A61-93D0-4BED-A15E-05CF605410A2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DragonScript.CommandLine", "..\DragonScript.CommandLine\DragonScript.CommandLine.vcxproj", "{DDDB4EEB-31A0-460C-9F7C-28C854BC0915}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -25,6 +27,10 @@ Global
 		{32B55A61-93D0-4BED-A15E-05CF605410A2}.Debug|Win32.Build.0 = Debug|Win32
 		{32B55A61-93D0-4BED-A15E-05CF605410A2}.Release|Win32.ActiveCfg = Release|Win32
 		{32B55A61-93D0-4BED-A15E-05CF605410A2}.Release|Win32.Build.0 = Release|Win32
+		{DDDB4EEB-31A0-460C-9F7C-28C854BC0915}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DDDB4EEB-31A0-460C-9F7C-28C854BC0915}.Debug|Win32.Build.0 = Debug|Win32
+		{DDDB4EEB-31A0-460C-9F7C-28C854BC0915}.Release|Win32.ActiveCfg = Release|Win32
+		{DDDB4EEB-31A0-460C-9F7C-28C854BC0915}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

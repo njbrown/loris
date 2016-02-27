@@ -145,7 +145,7 @@ bool Compiler::Compile(bool debug)
 		if(!parent)
 		{
 			error = Error();
-			error.message = string("unable to find class")+iter->second->parentName;
+			error.message = string("unable to find class ")+iter->second->parentName;
 			return false;
 		}
 		else

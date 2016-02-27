@@ -792,6 +792,7 @@ void VirtualMachine::CreateInstance(StackFrame* frame,string className)
 	GC::AddObject(this,obj);
 }
 
+//this calls function of an attibribute
 void VirtualMachine::CallMethod(StackFrame* frame,string methodName)
 {
 	//get self
@@ -850,7 +851,7 @@ vector<Object*> GC::objects;
 void GC::AddObject(VirtualMachine* vm,Object* obj,bool doGC)
 {
 	objects.push_back(obj);
-	cout<<"Created Object: "<<objects.size()<<endl;
+	//cout<<"Created Object: "<<objects.size()<<endl;
 
 	if(doGC)
 	{

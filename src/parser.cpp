@@ -106,7 +106,7 @@ Program* Parser::ParseProgram(bool *ok)
 			//error
 			ReportUnexpectTokenError(tokens->NextToken());
 			*ok=false;
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -202,10 +202,17 @@ ClassDefinition* Parser::ParseClassDefinition(bool* ok)
 			classDef->AddFunction(func);
 			break;
 		case Token::Var:
-			ClassAttribDefinition* attrib=ParseClassAttribDefinition(CHECK_OK);
-			attrib->SetStatic(nextMemberIsStatic);
-			classDef->AddAttrib(attrib);
+			{
+				ClassAttribDefinition* attrib=ParseClassAttribDefinition(CHECK_OK);
+				attrib->SetStatic(nextMemberIsStatic);
+				classDef->AddAttrib(attrib);
+			}
 			break;
+		default:
+			//error
+			ReportUnexpectTokenError(tokens->NextToken());
+			*ok=false;
+			return nullptr;
 		}
 	}
 
@@ -939,8 +946,9 @@ void Parser::ReportUnexpectTokenError(Token token)
 {
 	error = Error();
 	error.line = token.line;
-	error.message = "Unexpected ";
+	error.message = "unexpected token '";
 	error.message+=Token::GetTokenName(token.type);
+	error.message+= "'";
 }
 
 Error Parser::GetError()
@@ -963,10 +971,11 @@ void Parser::Expect(Token::Type type,bool *ok)
 
 		error = Error();
 		error.line = peek.line;
-		error.message = "Unexpected token ";
+		error.message = "Unexpected token '";
 		error.message+=Token::GetTokenName(peek.type);
-		error.message+=". Expected ";
+		error.message+="'. Expected '";
 		error.message+=Token::GetTokenName(type);
+		error.message+="'";
 	}
 }
 
@@ -989,9 +998,9 @@ void Parser::Consume(Token::Type type,bool *ok)
 		
 		error = Error();
 		error.line = tok.line;
-		error.message = "Unexpected ";
+		error.message = "unexpected token ";
 		error.message+=Token::GetTokenName(tok.type);
-		error.message+=". Expected ";
+		error.message+=". expected ";
 		error.message+=Token::GetTokenName(type);
 	}
 
