@@ -29,7 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 #include <algorithm>
-#include "../include/dragonscript/virtualmachine.hpp"
+#include "../include/loris/virtualmachine.hpp"
 
 using namespace dragonscript;
 
@@ -206,7 +206,7 @@ Object::Object()
 
 bool Object::HasAttrib(string name)
 {
-	map<string,Value>::iterator iter = vars.find(name);
+	unordered_map<string,Value>::iterator iter = vars.find(name);
 	return iter!=vars.end();
 }
 
@@ -227,14 +227,15 @@ void Object::SetMethod(string name,Function* func)
 
 Function* Object::GetMethod(string name)
 {
-	if(!HasMethod(name))
+	unordered_map<string, Function*>::iterator iter = methods.find(name);
+	if (iter == methods.end())
 		return NULL;
-	return methods[name];
+	return iter->second;
 }
 
 bool Object::HasMethod(string name)
 {
-	map<string,Function*>::iterator iter = methods.find(name);
+	unordered_map<string,Function*>::iterator iter = methods.find(name);
 	return iter!=methods.end();
 }
 
@@ -345,7 +346,7 @@ Object* VirtualMachine::CreateObject(Class* cls,bool addToGC,bool doGC)
 	}
 
 	//functions
-	map<string,Function*>::iterator iter;
+	unordered_map<string,Function*>::iterator iter;
 	for(iter = cls->methods.begin();iter!=cls->methods.end();iter++)
 	{
 		obj->SetMethod(iter->first,iter->second);
