@@ -31,7 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #pragma once
 
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <string>
 
 using namespace std;
@@ -54,8 +54,8 @@ public:
 	//list of source code names
 	vector<string> sourceNames;
 
-	map<string,Class*> classes;
-	map<string,Function*> functions;
+	unordered_map<string,Class*> classes;
+	unordered_map<string,Function*> functions;
 
 	void AddClass(Class* cls);
 	

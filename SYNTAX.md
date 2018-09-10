@@ -106,7 +106,7 @@ class methods are declared like any other functions. You can access the calling 
 
 ## Inheritance
 
-inheritance is done by using the extend keyword.
+inheritance is done by using the `extends` keyword.
 
 	class Base
 	{
@@ -130,9 +130,9 @@ inheritance is done by using the extend keyword.
 
 During instantiation, all of the base class's attribs and methods are copied into the instance before the derived class'. The base class's attribs and methods will be replaced by the derived's if they( the attribs and methods) share the same name.
 
-## Statements
+## Statements and Control flow
 
-This version only supports if, while and return statements. They function the same way as they would in Javascript.
+This version only supports assignment, function call, if, while and return statements. They function the same way as they would in Javascript.
 
 	if(5<10)
 	{
@@ -145,14 +145,15 @@ This version only supports if, while and return statements. They function the sa
 	while(couter<10)
 	{
 		print(i);
+		i = i + 1;
 	}
 
 	return false;
 
 ## Variables
 
-DragonScript's types are: number, string, bool and Object.
-number, string and bool are passed by reference. Objects are created from classes and are passed by value.
+Loris' types are: number, string, bool and Object.
+number, string and bool are passed by value. Objects are created from classes and are passed by reference.
 
 Math operations can only be done on numbers. You can, however, concatenate strings( AND ONLY STRINGS) using the + operator.
 
@@ -166,16 +167,16 @@ numbers can be compared using the < > <= >= != and == operators
 
 the only assignment operation is the = operator
 addition, subtraction, division and multiplication
-to finish
+(to finish)
 
 ## Built-ins
 
-Dragonscript currently has no built-in functions
+Loris currently has no built-in functions. Each script instance is a clean slate. Only functions you add explicitly are callable the scripts.
 
 ## Keywords
 
 	class def var for else extends if and or static
 
 
-There's no mechanism to include other scripts at runtime. DragonScript was made with the intention of having all scripts being compiled once.
+There's no mechanism to include other scripts at runtime. Loris was made with the intention of having all scripts being compiled once.
 

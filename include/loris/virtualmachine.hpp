@@ -36,7 +36,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <vector>
 #include <stack>
 #include <deque>
-#include <map>
+#include <unordered_map>
 #include <assert.h>
 #include <iostream>
 #include "string.h"
@@ -132,8 +132,8 @@ class Object
 protected:
 	friend class GC;
 
-	map<string,Value> vars;
-	map<string,Function*> methods;
+	unordered_map<string,Value> vars;
+	unordered_map<string,Function*> methods;
 
 	bool isArray;
 	
@@ -220,7 +220,7 @@ public:
 	string name;
 	vector<ClassAttrib> attribs;
 	//vector<string> functions;
-	map<string,Function*> methods;
+	unordered_map<string,Function*> methods;
 
 	//only invoked by gc
 	Function* destructor;
@@ -332,7 +332,7 @@ struct DSInstr
 struct StackFrame
 {
 	Function* function;
-	map<string,Value> locals;
+	unordered_map<string,Value> locals;
 	
 	deque<Value> stack;
 
@@ -358,7 +358,7 @@ class VirtualMachine
 	Assembly* assembly;
 
 	//is this even being used?
-	map<string,Value> globals;
+	unordered_map<string,Value> globals;
 
 	Value nullVal;
 	Value selfVal;

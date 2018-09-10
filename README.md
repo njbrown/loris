@@ -1,15 +1,18 @@
-# What's DragonScript
+# What's Loris
 
-DragonScript is an embeddable scripting language having the features you'd expect from a modern scripting language.
+Loris, previously DragonScript, is a test language I built in order to learn the inner workings of a scripting language.
 
-## Features of DragonScript
+## Features of Loris
 
 *	Simple and familiar syntax
 *	Object Oriented
-*	Garbage Collection
+*	Mark and Sweep Garbage Collection
 *	Easy to embed in c++ applications
 *	Easy to extend
+
+## Future Features
 * 	Pre-compilation
+*	Auto-binding of c++ functions to Loris
 
 ## Syntax
 
@@ -17,7 +20,7 @@ see https://github.com/njbrown/dragonscript/blob/master/SYNTAX.md
 
 ## Example
 
-hello.ds
+hello.ls
 
 	//class named Hello
 	class Hello
@@ -45,9 +48,8 @@ hello.ds
 
 ## Usage
 
-	#include "dragonscript/dragonscript.hpp"
+	#include "loris/loris.hpp"
 
-	using namespace dragonscript;
 
 	Value print(VirtualMachine* vm,Object* self)
 	{
@@ -59,28 +61,33 @@ hello.ds
 
 	int main()
 	{
-		DragonScript ds;
-		ds.AddSource("hello.ds",ReadFile("scripts/hello.ds"));
+		loris::Loris ls;
+		ls.AddSource("hello.ls",ReadFile("scripts/hello.ls"));
 
-		if(!ds.Compile())
+		if(!ls.Compile())
 		{
-			Error e = ds.GetError();
+			loris::Error e = ls.GetError();
 			cout<<"error in file"<<e.filename <<" on line "<<e.line<<endl;
 			cout<<e.message<<endl;
 		}
 		
-		ds.AddNativeFunction("print",print);
-		ds.ExecuteFunction("main");
+		ls.AddNativeFunction("print",print);
+		ls.ExecuteFunction("main");
 
 		system("pause");
 	}
 
 ## Note
 
-DragonScript is an experimental language I work on in my spare time. It is not optimized for speed at the moment and has known memory leaks. The syntax is coincidentally a subset of ChaiScript's. The code is also a mess and lacks documentation. That will all change over the course of its development. If you do use this library and you find any bugs please let me know. It would be really helpful.
+Loris is an experimental language I work on in my spare time. It is not optimized for speed at the moment and has known memory leaks. The syntax is coincidentally a subset of ChaiScript's. The code is also a mess and lacks documentation. That will all change over the course of its development. If you do use this library and you find any bugs please let me know. It would be really helpful.
 
 The API is subject to change. As I add more features and find ways to simplify common tasks I'll modify the API to accomodate these changes.
 
 ## Why the weird name?
 
-DragonScript was designed originally to be used in a game engine I was working on named Dragon (yes, i like dragons). I wont change the language's name as long as it's still relevant to the game engine. So :p
+The vm is pretty slow. Since giving scripting languages animal names is a trend, I go with the Slow Loris. :D
+I might make an effort to speed it up in the future but it's not a priority at the moment.
+
+## Known Issues
+* `or` and `and` statements are parsed but the bytecode isn't generated and will cause errors if used
+* garbage collection sometimes causes random crashes

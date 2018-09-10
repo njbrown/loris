@@ -28,9 +28,9 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
-#include "../include/dragonscript/assembly.hpp"
-#include "../include/dragonscript/compiler.hpp"
-#include "../include/dragonscript/virtualmachine.hpp"
+#include "../include/loris/assembly.hpp"
+#include "../include/loris/compiler.hpp"
+#include "../include/loris/virtualmachine.hpp"
 
 using namespace dragonscript;
 
