@@ -33,7 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "../assembly.hpp"
 #include "../virtualmachine.hpp"
 
-using namespace dragonscript;
+using namespace loris;
 
 namespace DSMathLib
 {

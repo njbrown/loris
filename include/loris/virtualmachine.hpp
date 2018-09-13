@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "assembly.hpp"
 #include "error.hpp"
 
-namespace dragonscript
+namespace loris
 {
 #define VM_ASSERT(check,msg) if(!(check)){this->RaiseError(frame,msg);return;}
 #define VM_ERROR(msg){this->RaiseError(frame,msg);return;}

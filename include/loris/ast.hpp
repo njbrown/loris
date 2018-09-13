@@ -35,7 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 using namespace std;
 #include "lexer.hpp"
 
-namespace dragonscript
+namespace loris
 {
 
 class ASTNode

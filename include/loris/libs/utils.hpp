@@ -34,7 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "../virtualmachine.hpp"
 #include <string>
 
-using namespace dragonscript;
+using namespace loris;
 
 namespace DSUtilsLib
 {

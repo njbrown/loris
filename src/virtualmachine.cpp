@@ -31,7 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <algorithm>
 #include "../include/loris/virtualmachine.hpp"
 
-using namespace dragonscript;
+using namespace loris;
 
 Value::Value()
 {

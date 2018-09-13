@@ -33,7 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "lexer.hpp"
 #include "ast.hpp"
 
-namespace dragonscript
+namespace loris
 {
 
 //stolen from v8's source :p
