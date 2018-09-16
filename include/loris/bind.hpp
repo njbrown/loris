@@ -34,3 +34,54 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "loris\loris.hpp"
 
 using namespace loris;
+
+template<> Value::operator double() {
+	return AsNumber();
+}
+
+template<> Value::operator long() {
+	return AsNumber();
+}
+
+template<> Value::operator std::string() {
+	return AsString();
+}
+
+Value box(int value)
+{
+	return Value::CreateNumber(value);
+}
+
+Value box(long value)
+{
+	return Value::CreateNumber(value);
+}
+
+Value box(float value)
+{
+	return Value::CreateNumber(value);
+}
+
+Value box(double value)
+{
+	return Value::CreateNumber(value);
+}
+
+Value box(const std::string& value)
+{
+	return Value::CreateString(value.c_str());
+}
+
+Value box(bool value)
+{
+	return Value::CreateBool(value);
+}
+
+template<typename T>
+Value box(T value)
+{
+	auto obj = new Object();
+	obj->managed = false;
+	obj->data = (void*)value;
+	return Value::CreateObject(obj);
+}
