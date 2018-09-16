@@ -34,7 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "virtualmachine.hpp"
 #include "compiler.hpp"
 #include "error.hpp"
-
+#include "bind.hpp"
 
 
 namespace loris

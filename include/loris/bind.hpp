@@ -35,47 +35,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace loris {
 
-template<> Value::operator double() {
-	return AsNumber();
-}
 
-template<> Value::operator long() {
-	return AsNumber();
-}
+template<> Value::operator double();
+template<> Value::operator long();
+template<> Value::operator std::string();
 
-template<> Value::operator std::string() {
-	return AsString();
-}
+Value box(int value);
 
-Value box(int value)
-{
-	return Value::CreateNumber(value);
-}
+Value box(long value);
 
-Value box(long value)
-{
-	return Value::CreateNumber(value);
-}
+Value box(float value);
 
-Value box(float value)
-{
-	return Value::CreateNumber(value);
-}
+Value box(double value);
 
-Value box(double value)
-{
-	return Value::CreateNumber(value);
-}
+Value box(const std::string& value);
 
-Value box(const std::string& value)
-{
-	return Value::CreateString(value.c_str());
-}
-
-Value box(bool value)
-{
-	return Value::CreateBool(value);
-}
+Value box(bool value);
 
 template<typename T>
 Value box(T value)
@@ -117,106 +92,24 @@ class ClassBuilder
 public:
 	Class * def;
 
-	ClassBuilder()
-	{
-		def = NULL;
-	}
+	ClassBuilder();
 
-	ClassBuilder Start(string className)
-	{
-		def = new Class();
-		def->name = className;
+	ClassBuilder Start(string className);
 
-		return *this;
-	}
+	ClassBuilder Attrib(string name);
 
-	ClassBuilder Attrib(string name)
-	{
-		assert(def != NULL);
+	ClassBuilder StaticAttrib(string name);
 
-		ClassAttrib attr;
-		attr.name = name;
-		attr.isStatic = false;
-		attr.init = NULL;
-		def->attribs.push_back(attr);
+	ClassBuilder Constructor(NativeFunction native);
 
-		return *this;
-	}
+	ClassBuilder Destructor(NativeFunction native);
 
-	ClassBuilder StaticAttrib(string name)
-	{
-		assert(def != NULL);
+	ClassBuilder Method(string name, NativeFunction native);
 
-		ClassAttrib attr;
-		attr.name = name;
-		attr.isStatic = true;
-		attr.init = NULL;
-		def->attribs.push_back(attr);
+	ClassBuilder StaticMethod(string name, NativeFunction native);
 
-		return *this;
-	}
-
-	ClassBuilder Constructor(NativeFunction native)
-	{
-		Function* func = new Function;
-		func->name = def->name;
-		func->isStatic = false;
-		func->isNative = true;
-		func->nativeFunction = native;
-
-		def->methods[def->name] = func;
-		return *this;
-	}
-
-	ClassBuilder Destructor(NativeFunction native)
-	{
-		Function* func = new Function;
-		func->name = def->name;
-		func->isStatic = false;
-		func->isNative = true;
-		func->nativeFunction = native;
-
-		def->destructor = func;
-		return *this;
-	}
-
-	ClassBuilder Method(string name, NativeFunction native)
-	{
-		Function* func = new Function;
-		func->name = def->name;
-		func->isStatic = false;
-		func->isNative = true;
-		func->nativeFunction = native;
-
-		def->methods[name] = func;
-		return *this;
-	}
-
-	ClassBuilder StaticMethod(string name, NativeFunction native)
-	{
-		Function* func = new Function;
-		func->name = def->name;
-		func->isStatic = true;
-		func->isNative = true;
-		func->nativeFunction = native;
-
-		def->methods[name] = func;
-		return *this;
-	}
-
-	Class* Build()
-	{
-		Class* c = def;
-		def = NULL;
-
-		return c;
-	}
+	Class* Build();
 };
 
-ClassBuilder CreateClass(std::string name)
-{
-	ClassBuilder builder;
-	return builder.Start(name);
-}
-
+ClassBuilder CreateClass(std::string name);
 }

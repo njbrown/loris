@@ -25,6 +25,7 @@ set(SRCS
 	src/parser.cpp 
 	src/virtualmachine.cpp 
 	src/loris.cpp
+	src/bind.cpp
     )
 
 add_library(loris STATIC ${SRCS} ${HEADERS})
