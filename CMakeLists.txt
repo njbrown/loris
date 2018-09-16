@@ -12,6 +12,7 @@ set(HEADERS
 	include/loris/loris.hpp
 	include/loris/parser.hpp
 	include/loris/virtualmachine.hpp
+	include/loris/bind.hpp
 
 	include/loris/libs/math.hpp
 	include/loris/libs/utils.hpp
