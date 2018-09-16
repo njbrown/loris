@@ -33,7 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "loris\loris.hpp"
 
-using namespace loris;
+namespace loris {
 
 template<> Value::operator double() {
 	return AsNumber();
@@ -110,4 +110,113 @@ std::function<Value(VirtualMachine* vm, Object* self)> Def(Ret(*sig)(Params...))
 			return box(call_func(sig, std::index_sequence_for<Params...>{}, vm));
 		};
 	}
+}
+
+class ClassBuilder
+{
+public:
+	Class * def;
+
+	ClassBuilder()
+	{
+		def = NULL;
+	}
+
+	ClassBuilder Start(string className)
+	{
+		def = new Class();
+		def->name = className;
+
+		return *this;
+	}
+
+	ClassBuilder Attrib(string name)
+	{
+		assert(def != NULL);
+
+		ClassAttrib attr;
+		attr.name = name;
+		attr.isStatic = false;
+		attr.init = NULL;
+		def->attribs.push_back(attr);
+
+		return *this;
+	}
+
+	ClassBuilder StaticAttrib(string name)
+	{
+		assert(def != NULL);
+
+		ClassAttrib attr;
+		attr.name = name;
+		attr.isStatic = true;
+		attr.init = NULL;
+		def->attribs.push_back(attr);
+
+		return *this;
+	}
+
+	ClassBuilder Constructor(NativeFunction native)
+	{
+		Function* func = new Function;
+		func->name = def->name;
+		func->isStatic = false;
+		func->isNative = true;
+		func->nativeFunction = native;
+
+		def->methods[def->name] = func;
+		return *this;
+	}
+
+	ClassBuilder Destructor(NativeFunction native)
+	{
+		Function* func = new Function;
+		func->name = def->name;
+		func->isStatic = false;
+		func->isNative = true;
+		func->nativeFunction = native;
+
+		def->destructor = func;
+		return *this;
+	}
+
+	ClassBuilder Method(string name, NativeFunction native)
+	{
+		Function* func = new Function;
+		func->name = def->name;
+		func->isStatic = false;
+		func->isNative = true;
+		func->nativeFunction = native;
+
+		def->methods[name] = func;
+		return *this;
+	}
+
+	ClassBuilder StaticMethod(string name, NativeFunction native)
+	{
+		Function* func = new Function;
+		func->name = def->name;
+		func->isStatic = true;
+		func->isNative = true;
+		func->nativeFunction = native;
+
+		def->methods[name] = func;
+		return *this;
+	}
+
+	Class* Build()
+	{
+		Class* c = def;
+		def = NULL;
+
+		return c;
+	}
+};
+
+ClassBuilder CreateClass(std::string name)
+{
+	ClassBuilder builder;
+	return builder.Start(name);
+}
+
 }
