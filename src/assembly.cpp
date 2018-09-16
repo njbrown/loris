@@ -76,7 +76,18 @@ Function* Assembly::GetFunction(string name)
 	return NULL;
 }
 
-void Assembly::AddNativeFunction(string name,NativeFunction func)
+void Assembly::AddFunction(string name, NativeFunction func)
+{
+	Function* f = new Function();
+	f->name = name;
+	f->isNative = true;
+	f->nativeFunction = func;
+
+	//functions.push_back(f);
+	functions[f->name] = f;
+}
+
+void Assembly::AddFunction(string name, std::function<Value(VirtualMachine*, Object*)> func)
 {
 	Function* f = new Function();
 	f->name = name;

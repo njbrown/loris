@@ -99,7 +99,17 @@ Value Loris::ExecuteFunction(Function* func)
 	return ret;
 }
 
-void Loris::AddNativeFunction(const string& name, NativeFunction func)
+void Loris::AddFunction(const string& name, NativeFunction func)
 {
-	assembly->AddNativeFunction(name, func);
+	assembly->AddFunction(name, func);
+}
+
+void Loris::AddFunction(const string& name, std::function<Value(VirtualMachine*, Object*)> func)
+{
+	assembly->AddFunction(name, func);
+}
+
+void loris::Loris::AddClass(Class* cls)
+{
+	assembly->AddClass(cls);
 }

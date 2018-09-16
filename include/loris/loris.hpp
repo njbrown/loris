@@ -63,7 +63,9 @@ public:
 
 	Value ExecuteFunction(Function* func);
 
-	void AddNativeFunction(const string& name, NativeFunction func);
+	void AddFunction(const string& name, NativeFunction func);
+	void AddFunction(const string& name, std::function<Value(VirtualMachine*, Object*)> func);
+	void AddClass(Class* cls);
 };
 
 }

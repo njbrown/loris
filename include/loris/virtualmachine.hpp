@@ -258,7 +258,7 @@ struct Function
 	vector<DSInstr> instr;//instructions
 
 	bool isNative;
-	NativeFunction nativeFunction;
+	std::function<Value(VirtualMachine*, Object*)> nativeFunction;
 
 	bool isStatic;
 

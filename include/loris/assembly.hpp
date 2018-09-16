@@ -33,6 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <vector>
 #include <unordered_map>
 #include <string>
+#include <functional>
 
 using namespace std;
 
@@ -60,8 +61,8 @@ public:
 	void AddClass(Class* cls);
 	
 	void AddFunction(Function* func);
-
-	void AddNativeFunction(string name,NativeFunction func);
+	void AddFunction(string name,NativeFunction func);
+	void AddFunction(string name, std::function<Value(VirtualMachine*, Object*)> func);
 
 	Class* GetClass(string name);
 	Function* GetFunction(string name);
