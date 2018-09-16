@@ -37,7 +37,7 @@ using namespace loris;
 
 Loris::Loris()
 {
-	assembly = nullptr;
+	assembly = new Assembly();
 }
 
 void Loris::AddSource(string source)
@@ -67,13 +67,12 @@ Error Loris::GetError()
 
 bool Loris::Compile()
 {
-	if (!compiler.Compile())
+	if (!compiler.Compile(assembly))
 	{
 		error = compiler.GetError();
 		return false;
 	}
 
-	assembly = compiler.GetAssembly();
 	vm.SetAssembly(assembly);
 
 	return true;
@@ -120,6 +119,11 @@ void Loris::AddFunction(const string& name, std::function<Value(VirtualMachine*,
 void Loris::AddClass(Class* cls)
 {
 	assembly->AddClass(cls);
+}
+
+Loris::~Loris()
+{
+	delete assembly;
 }
 
 string Loris::ReadFile(const char *filename)

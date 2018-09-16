@@ -63,9 +63,23 @@ public:
 
 	Value ExecuteFunction(Function* func);
 
+	template<typename T>
+	T ExecuteFunction(Function* func)
+	{
+		return (T)ExecuteFunction(func);
+	}
+
+	template<typename T>
+	T ExecuteFunction(const string& name)
+	{
+		return (T)ExecuteFunction(name);
+	}
+
 	void AddFunction(const string& name, NativeFunction func);
 	void AddFunction(const string& name, std::function<Value(VirtualMachine*, Object*)> func);
 	void AddClass(Class* cls);
+
+	~Loris();
 
 private:
 	string ReadFile(const char *filename);

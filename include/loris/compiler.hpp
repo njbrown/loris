@@ -71,6 +71,7 @@ public:
 	void AddSource(string filename,string code);
 
 	bool Compile(bool debug = false);
+	bool Compile(Assembly* assembly, bool debug = false);
 
 	//compiles function node into instructions
 	Function* CompileFunction(FunctionDefinition* funcDef);

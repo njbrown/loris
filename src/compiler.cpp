@@ -43,11 +43,18 @@ void Compiler::AddSource(string filename,string code)
 	sources.push_back(src);
 }
 
+//todo: figure out how to return assembly when compilation is done
 bool Compiler::Compile(bool debug)
+{
+	auto assembly = new Assembly;
+	return Compile(assembly, debug);
+}
+
+bool Compiler::Compile(Assembly* assembly, bool debug)
 {
 	this->debug = debug;
 
-	assembly = new Assembly;
+	this->assembly = assembly;
 
 	for(size_t i=0;i<sources.size();i++)
 	{
