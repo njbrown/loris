@@ -30,6 +30,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include "../include/loris/loris.hpp"
 
+#include <fstream>
+#include <sstream>
+
 using namespace loris;
 
 Loris::Loris()
@@ -45,6 +48,11 @@ void Loris::AddSource(string source)
 void Loris::AddSource(string filename, string source)
 {
 	compiler.AddSource(filename, source);
+}
+
+void Loris::AddFileSource(string filename)
+{
+	AddSource(filename, ReadFile(filename.c_str()));
 }
 
 bool Loris::HasError()
@@ -109,7 +117,24 @@ void Loris::AddFunction(const string& name, std::function<Value(VirtualMachine*,
 	assembly->AddFunction(name, func);
 }
 
-void loris::Loris::AddClass(Class* cls)
+void Loris::AddClass(Class* cls)
 {
 	assembly->AddClass(cls);
+}
+
+string Loris::ReadFile(const char *filename)
+{
+	ifstream file(filename);
+	stringstream stream;
+	string line;
+
+	while (file.good())
+	{
+		getline(file, line);
+		stream << line << endl;
+	}
+
+	cout << stream.str() << endl;
+
+	return stream.str();
 }

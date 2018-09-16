@@ -50,8 +50,8 @@ public:
 	Loris();
 
 	void AddSource(string source);
-
 	void AddSource(string filename, string source);
+	void AddFileSource(string filename);
 
 	bool HasError();
 
@@ -66,6 +66,9 @@ public:
 	void AddFunction(const string& name, NativeFunction func);
 	void AddFunction(const string& name, std::function<Value(VirtualMachine*, Object*)> func);
 	void AddClass(Class* cls);
+
+private:
+	string ReadFile(const char *filename);
 };
 
 }
