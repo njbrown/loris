@@ -36,9 +36,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace loris {
 
 
-template<> Value::operator double();
+template<> Value::operator int();
 template<> Value::operator long();
+template<> Value::operator float();
+template<> Value::operator double();
 template<> Value::operator std::string();
+template<> Value::operator bool();
 
 Value box(int value);
 

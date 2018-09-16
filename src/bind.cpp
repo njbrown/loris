@@ -33,7 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace loris
 {
 
-template<> Value::operator double() {
+template<> Value::operator int() {
 	return AsNumber();
 }
 
@@ -41,8 +41,20 @@ template<> Value::operator long() {
 	return AsNumber();
 }
 
+template<> Value::operator float() {
+	return AsNumber();
+}
+
+template<> Value::operator double() {
+	return AsNumber();
+}
+
 template<> Value::operator std::string() {
 	return AsString();
+}
+
+template<> Value::operator bool() {
+	return AsBool();
 }
 
 Value box(int value)
