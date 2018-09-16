@@ -123,6 +123,14 @@ public:
 	static Value CreateArray();
 
 	static Value CreateClass(VirtualMachine* vm,Class* cls);
+
+	template<typename T>
+	operator T()
+	{
+		if (this->type == ValueType::Object)
+			return (T)this->val.obj;
+		return T();
+	}
 };
 
 class GC;
