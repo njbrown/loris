@@ -85,3 +85,29 @@ Value box(T value)
 	obj->data = (void*)value;
 	return Value::CreateObject(obj);
 }
+
+
+template<typename Ret, typename ... Params, size_t ... I>
+Ret call_func(Ret(*sig)(Params...),
+	std::index_sequence<I...>, VirtualMachine* vm)
+{
+	return sig(vm->GetArg(I)...);
+}
+
+template<typename Ret, typename ... Params>
+std::function<Value(VirtualMachine* vm, Object* self)> Def(Ret(*sig)(Params...))
+{
+	if (std::is_same<Ret, void>::value) {
+		return [=](VirtualMachine* vm, Object* self)
+		{
+			call_func(sig, std::index_sequence_for<Params...>{}, vm);
+			return Value::CreateNull();
+		};
+	}
+	else {
+		return [=](VirtualMachine* vm, Object* self)
+		{
+			return box(call_func(sig, std::index_sequence_for<Params...>{}, vm));
+		};
+	}
+}
