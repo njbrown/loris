@@ -114,22 +114,22 @@ Value NativeExp(VirtualMachine* vm,Object* self)
 
 void Install(Assembly* lib)
 {
-	lib->AddNativeFunction("mod",NativeMod);
-	lib->AddNativeFunction("floor",NativeFloor);
-	lib->AddNativeFunction("ceil",NativeCeil);
-	lib->AddNativeFunction("sin",NativeSin);
-	lib->AddNativeFunction("cos",NativeCos);
-	lib->AddNativeFunction("tan",NativeTan);
-	lib->AddNativeFunction("asin",NativeAsin);
-	lib->AddNativeFunction("acos",NativeAcos);
-	lib->AddNativeFunction("atan",NativeAtan);
-	lib->AddNativeFunction("log10",NativeLog10);
-	lib->AddNativeFunction("log2",NativeLog2);
-	lib->AddNativeFunction("exp10",NativeExp10);
-	lib->AddNativeFunction("exp2",NativeExp2);
-	lib->AddNativeFunction("pow",NativePow);
-	lib->AddNativeFunction("exp",NativeExp);
-	lib->AddNativeFunction("log",NativeLog);
+	lib->AddFunction("mod",NativeMod);
+	lib->AddFunction("floor",NativeFloor);
+	lib->AddFunction("ceil",NativeCeil);
+	lib->AddFunction("sin",NativeSin);
+	lib->AddFunction("cos",NativeCos);
+	lib->AddFunction("tan",NativeTan);
+	lib->AddFunction("asin",NativeAsin);
+	lib->AddFunction("acos",NativeAcos);
+	lib->AddFunction("atan",NativeAtan);
+	lib->AddFunction("log10",NativeLog10);
+	lib->AddFunction("log2",NativeLog2);
+	lib->AddFunction("exp10",NativeExp10);
+	lib->AddFunction("exp2",NativeExp2);
+	lib->AddFunction("pow",NativePow);
+	lib->AddFunction("exp",NativeExp);
+	lib->AddFunction("log",NativeLog);
 }
 
 }

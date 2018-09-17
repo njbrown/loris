@@ -68,7 +68,7 @@ Value NativeArray(VirtualMachine* vm,Object* self)
 
 void Install(Assembly* lib)
 {
-	lib->AddNativeFunction("str",NativeStr);
-	lib->AddNativeFunction("array",NativeArray);
+	lib->AddFunction("str",NativeStr);
+	lib->AddFunction("array",NativeArray);
 }
 }
