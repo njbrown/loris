@@ -1,4 +1,7 @@
 # Loris
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square)](https://github.com/njbrown/loris/issues)
+[![HitCount](http://hits.dwyl.io/njbrown/loris.svg)](https://hits.dwyl.io/njbrown/loris)
+[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://github.com/njbrown/loris/blob/master/LICENSE)
 
 Easy scripting in C++.
 
