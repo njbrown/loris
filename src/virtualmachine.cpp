@@ -1034,6 +1034,12 @@ ArrayObject::ArrayObject()
 	func->nativeFunction = GetSize;
 	func->name = "size";
 	SetMethod("size",func);
+
+	func = new Function;
+	func->isNative = true;
+	func->nativeFunction = RemoveAt;
+	func->name = "remove_at";
+	SetMethod("remove_at", func);
 }
 
 //def size()
@@ -1077,4 +1083,30 @@ Value ArrayObject::GetEl(VirtualMachine* vm,Object* self)
 	}
 
 	return arr->elements[ind];
+}
+
+//def remove_at(index)
+Value ArrayObject::RemoveAt(VirtualMachine* vm, Object* self)
+{
+	//ensure the index is a number
+	Value index = vm->GetArg(0);
+	if (index.type != ValueType::Number)
+	{
+		vm->RaiseError("index should only be an integer");
+		return Value::CreateNull();
+	}
+
+	//ensure it's within the bounds of the array
+	int ind = (int)index.val.num;
+	ArrayObject* arr = (ArrayObject*)self;
+
+	if (ind<0 || ind >= (int)arr->elements.size())
+	{
+		vm->RaiseError("index out of bounds");
+		return Value::CreateNull();
+	}
+
+	arr->elements.erase(arr->elements.begin() + ind);
+
+	return Value::CreateNull();
 }
