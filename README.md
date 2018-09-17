@@ -1,11 +1,11 @@
 # Loris
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square)](https://github.com/njbrown/loris/issues)
-[![HitCount](http://hits.dwyl.io/njbrown/loris.svg)](https://hits.dwyl.io/njbrown/loris)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://github.com/njbrown/loris/blob/master/LICENSE)
+[![HitCount](http://hits.dwyl.io/njbrown/loris.svg)](https://hits.dwyl.io/njbrown/loris)
 
 Easy scripting in C++.
 
-## Features of Loris
+## Features
 
 *	Simple and familiar syntax
 *	Object Oriented
@@ -16,38 +16,6 @@ Easy scripting in C++.
 
 ## Future Features
 * 	Pre-compilation
-
-## Syntax
-
-see https://github.com/njbrown/dragonscript/blob/master/SYNTAX.md
-
-## Example Script
-
-hello.ls
-
-	//class named Hello
-	class Hello
-	{
-		//constructor
-		Hello()
-		{
-			print("this is a constructor");
-		}
-		
-		//member function
-		def Greet()
-		{
-			//call print function
-			print("hello world!");
-		}
-	}
-
-	def main()
-	{
-		var hello = new Hello();
-		hello.Greet();
-	}
-
 
 ## Example Usage
 
@@ -74,6 +42,37 @@ hello.ls
 
 		double result = loris.ExecuteFunction<double>("hello");
 	}
+
+## Example Script
+
+	//class named Hello
+	class Hello
+	{
+		//constructor
+		Hello()
+		{
+			print("this is a constructor");
+		}
+		
+		//member function
+		def Greet()
+		{
+			//call print function
+			print("hello world!");
+		}
+	}
+
+	def main()
+	{
+		var hello = new Hello();
+		hello.Greet();
+	}
+
+
+## Syntax
+
+https://github.com/njbrown/dragonscript/blob/master/SYNTAX.md
+
 
 ## Known Issues
 * `or` and `and` statements are parsed but the bytecode isn't generated and will cause errors if used
