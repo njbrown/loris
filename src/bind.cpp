@@ -120,7 +120,7 @@ ClassBuilder ClassBuilder::StaticAttrib(string name)
 	return *this;
 }
 
-ClassBuilder ClassBuilder::Constructor(NativeFunction native)
+ClassBuilder ClassBuilder::Constructor(std::function<Value(VirtualMachine*, Object*)> native)
 {
 	Function* func = new Function;
 	func->name = def->name;
@@ -132,7 +132,7 @@ ClassBuilder ClassBuilder::Constructor(NativeFunction native)
 	return *this;
 }
 
-ClassBuilder ClassBuilder::Destructor(NativeFunction native)
+ClassBuilder ClassBuilder::Destructor(std::function<Value(VirtualMachine*, Object*)> native)
 {
 	Function* func = new Function;
 	func->name = def->name;
@@ -144,7 +144,7 @@ ClassBuilder ClassBuilder::Destructor(NativeFunction native)
 	return *this;
 }
 
-ClassBuilder ClassBuilder::Method(string name, NativeFunction native)
+ClassBuilder ClassBuilder::Method(string name, std::function<Value(VirtualMachine*, Object*)> native)
 {
 	Function* func = new Function;
 	func->name = def->name;
@@ -156,7 +156,7 @@ ClassBuilder ClassBuilder::Method(string name, NativeFunction native)
 	return *this;
 }
 
-ClassBuilder ClassBuilder::StaticMethod(string name, NativeFunction native)
+ClassBuilder ClassBuilder::StaticMethod(string name, std::function<Value(VirtualMachine*, Object*)> native)
 {
 	Function* func = new Function;
 	func->name = def->name;

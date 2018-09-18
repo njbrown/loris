@@ -95,13 +95,13 @@ public:
 
 	ClassBuilder StaticAttrib(string name);
 
-	ClassBuilder Constructor(NativeFunction native);
+	ClassBuilder Constructor(std::function<Value(VirtualMachine*, Object*)> native);
 
-	ClassBuilder Destructor(NativeFunction native);
+	ClassBuilder Destructor(std::function<Value(VirtualMachine*, Object*)> native);
 
-	ClassBuilder Method(string name, NativeFunction native);
+	ClassBuilder Method(string name, std::function<Value(VirtualMachine*, Object*)> native);
 
-	ClassBuilder StaticMethod(string name, NativeFunction native);
+	ClassBuilder StaticMethod(string name, std::function<Value(VirtualMachine*, Object*)> native);
 
 	Class* Build();
 };
