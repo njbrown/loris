@@ -119,7 +119,8 @@ void Install(Assembly* lib)
 	lib->AddFunction("ceil",NativeCeil);
 	lib->AddFunction("sin",NativeSin);
 	lib->AddFunction("cos",NativeCos);
-	lib->AddFunction("tan",NativeTan);
+	lib->AddFunction("tan", NativeTan);
+	lib->AddFunction("atan2",loris::Def(atan2f));
 	lib->AddFunction("asin",NativeAsin);
 	lib->AddFunction("acos",NativeAcos);
 	lib->AddFunction("atan",NativeAtan);

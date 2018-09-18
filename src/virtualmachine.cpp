@@ -795,7 +795,7 @@ void VirtualMachine::CallMethod(StackFrame* frame,string methodName)
 
 	//must be a object
 	//assert(var.type == ValueType::Object);
-	VM_ASSERT(var.type == ValueType::Object || var.type == ValueType::Array ,"attemped to call a method from a non-Object type");
+	VM_ASSERT(var.type == ValueType::Object || var.type == ValueType::Array ,"attemped to call a method '"+methodName+"' from a non-Object type");
 
 	//must contain method
 	//assert(var.val.obj->HasMethod(methodName));
