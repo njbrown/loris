@@ -62,8 +62,13 @@ Value NativeStr(VirtualMachine* vm,Object* self)
 
 Value NativeArray(VirtualMachine* vm,Object* self)
 {
+	auto arrayVar = Value::CreateArray();
+	auto arrayObj = arrayVar.AsArray();
+	for (int i = 0; i < vm->NumArgs(); i++)
+		arrayObj->elements.push_back(vm->GetArg(i));
+
 	//ignore args at the moment
-	return Value::CreateArray();
+	return arrayVar;
 }
 
 void Install(Assembly* lib)
