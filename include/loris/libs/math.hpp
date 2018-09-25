@@ -111,6 +111,17 @@ Value NativeExp(VirtualMachine* vm,Object* self)
 	return Value::CreateNumber(exp(vm->GetArg(0).AsNumber()));
 }
 
+// Converts radians to degrees.
+float radiansf(float angleDegrees)
+{
+	return (angleDegrees * M_PI / 180.0);
+}
+
+// Converts radians to degrees.
+float degreesf(float angleRadians)
+{
+	return (angleRadians * 180.0 / M_PI);
+}
 
 void Install(Assembly* lib)
 {
@@ -132,6 +143,8 @@ void Install(Assembly* lib)
 	lib->AddFunction("pow",NativePow);
 	lib->AddFunction("exp",NativeExp);
 	lib->AddFunction("log",NativeLog);
+	lib->AddFunction("radians", loris::Def(radiansf));
+	lib->AddFunction("degrees", loris::Def(degreesf));
 }
 
 }
